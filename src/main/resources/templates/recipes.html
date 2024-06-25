@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Home</title>
+	<link rel="stylesheet" href="/css/styleHome.css" />
+</head>
+
+<body>
+	
+    <div class="navbar">
+        <h1 class="logo">SiWFood</h1>
+        <a href="/login">Login</a>
+    </div>
+	
+	
+	<div class="emptyNav" th:if="${recipes==null || recipes.isEmpty()}">Non ci sono ricette nel sistema</div>
+	
+	<ul class="product-list">
+		<li class="product-container" th:each="recipe : ${recipes}">
+	           <a class="refer"target ="_blank" th:href="@{'/recipes' + '/' + ${recipe.id}}">
+			    <img th:src="@{${recipe.mainImagePath}}">
+	           </a>
+				<div><a th:text="${recipe.name}"></a> </div>
+		</li>
+	</ul>
+
+	
+</body>
+
+</html>

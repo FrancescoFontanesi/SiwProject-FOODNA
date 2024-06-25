@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,
+        initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styleIndx.css">
+    <title>SiwFood</title>
+</head>
+
+
+<body>
+	
+
+    <div th:if="${recipe}">
+        <span th:text="${recipe.name}">Up!</span>
+        <span th:text="'(' + ${movie.year} + ')'">2000</span>
+        <span><img width="5%" th:src=${movie.urlImage} /></span>
+    </div>
+    <div th:unless="${movie}">Non esiste</div>
+	
+	
+	
+  </body>
