@@ -9,8 +9,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	
 	public User findByName(String name);
 	
-	public Iterable<User> findAllByRole(String role);
-
-	public User findByEmail(String email);
 	
 }

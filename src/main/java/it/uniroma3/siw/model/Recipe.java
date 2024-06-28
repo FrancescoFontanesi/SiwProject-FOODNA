@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -21,8 +22,10 @@ public class Recipe {
 
 	@NotNull
 	private String name;
+	
 	private String description;
 	
+	@NotBlank(message = "Category can not be empty")
 	private String category;
 	
 	@ManyToOne

@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
 
 
@@ -32,8 +33,8 @@ public class AuthConfiguration {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                .authoritiesByUsernameQuery("SELECT username, role from credentials WHERE username=?")
-                .usersByUsernameQuery("SELECT username, password, 1 as enabled FROM credentials WHERE username=?")
+                .authoritiesByUsernameQuery("SELECT email, role from credentials WHERE email=?")
+                .usersByUsernameQuery("SELECT email, password, 1 as enabled FROM credentials WHERE email=?")
                 .passwordEncoder(passwordEncoder());
     }
 
@@ -45,14 +46,14 @@ public class AuthConfiguration {
                 authorizeRequests
                     .requestMatchers("/**", "/index", "/register", "/css/**", "/images/**", "favicon.ico").permitAll()
                     .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
-                    .requestMatchers("/admin/**").hasAuthority(User.ADMIN_ROLE)
+                    .requestMatchers("/admin/**").hasAuthority(Credentials.ADMIN_ROLE)
                     .anyRequest().authenticated()
             )
             .formLogin(formLogin ->
                 formLogin
                     .loginPage("/login")
                     .permitAll()
-                    .defaultSuccessUrl("/recipes", true)
+                    .defaultSuccessUrl("/", true)
                     .failureUrl("/login?error=true")
             )
             .logout(logout ->

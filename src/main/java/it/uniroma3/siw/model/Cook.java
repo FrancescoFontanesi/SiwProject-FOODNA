@@ -9,33 +9,32 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Cook {
 
+	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
-	@OneToOne
-	private User user;
+	
+	
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cook") 
-	private List<Recipe> personal;
-
+	private List<Recipe> personalRecipes;
 
 	@OneToMany(fetch = FetchType.LAZY) private List<Recipe> favorites;
 
 	@OneToMany(fetch = FetchType.LAZY) private List<Ingredient> shoppingList;
 
-	public Cook(User user) {
-		this.personal = new ArrayList<>(); 
+	public Cook() {
+		this.personalRecipes = new ArrayList<>(); 
 		this.favorites = new ArrayList<>();
 		this.shoppingList = new ArrayList<>();
-		this.user = user;
 	}
 	
+
 
 	// Getters and Setters
 	public Long getId() {
@@ -47,17 +46,10 @@ public class Cook {
 	}
 
 
-	public List<Recipe> getPersonal() { return personal; }
+	public List<Recipe> getPersonal() { return personalRecipes; }
 
-	public void setPersonal(List<Recipe> personal) { this.personal = personal; }
+	public void setPersonal(List<Recipe> personal) { this.personalRecipes = personal; }
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 
 	public List<Recipe> getFavorites() { return favorites; }
 
@@ -68,4 +60,10 @@ public class Cook {
 
 	public void setShoppingList(List<Ingredient> shoppingList) {
 		this.shoppingList = shoppingList; }
+
+
+	@Override
+	public String toString() {
+		return ",  " + " personalRecipes =" + personalRecipes + ", favorites=" + favorites + ", shoppingList=" + shoppingList + ", ";
+	}
 }
