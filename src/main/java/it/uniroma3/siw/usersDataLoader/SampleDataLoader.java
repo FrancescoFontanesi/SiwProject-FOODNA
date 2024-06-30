@@ -44,6 +44,7 @@ public class SampleDataLoader implements CommandLineRunner {
         cook1.setBio("Test bio");
         cook1.setBirthDate("01/01/2000");
         cook1.setCook(new Cook());
+        cook1.getCook().setUser(cook1);	
         
       
         Credentials cook1Credentials = new Credentials();

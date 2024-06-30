@@ -57,8 +57,10 @@
 									<div class="profile-pic-container">
 									    <img th:src="${user.profilePic}" class="profile-pic" alt="Profile Picture">
 									</div>
+								<div class="pt-3">
 		                            <h2 th:text="${user.name} + ' ' + ${user.surname}">Name Surname</h2>
-		                            <a th:href="@{admin/edit/{id}(id=${user.id})}" class="mr-2"><i class="bi bi-pen"></i></a>
+		                            <a th:href="@{admin/edit/{id}(id=${user.id})}" class="mr-2"><i class="bi bi-pen fs-4"></i></a>
+								  </div>
 		                        </div>
 		                        
 		                        <div class="tab-container my-4 mainText2">

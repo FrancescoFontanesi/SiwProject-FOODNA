@@ -3,11 +3,13 @@ package it.uniroma3.siw.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -20,17 +22,19 @@ public class Cook {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToOne
-	private User user;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 	
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cook") 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cook", cascade = CascadeType.ALL, orphanRemoval = true) 
 	private List<Recipe> personalRecipes;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cook")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cook", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Recipe> favoritesRecipes;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<User> likedCooks;
 	
 	private Integer numberOfFollows;
@@ -50,6 +54,14 @@ public class Cook {
 		this.id = id;
 	}
 
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public List<Recipe> getPersonalRecipes() {
 		return personalRecipes;

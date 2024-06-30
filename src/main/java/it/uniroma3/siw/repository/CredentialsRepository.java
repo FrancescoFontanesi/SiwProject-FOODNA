@@ -12,6 +12,8 @@ public interface CredentialsRepository extends CrudRepository<Credentials, Long>
 	public Optional<Credentials> findByEmail(String email);
 
 	public List<Credentials> findAllByRole(String role);
+
+	public boolean existsByEmail(String email);
 	
 
 }

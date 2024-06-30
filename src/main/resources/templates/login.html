@@ -48,69 +48,55 @@
 	</nav>
 
 
-
-
-	<section class="h-100 gradient-form  ">
-		<div class="container-lg py-4 h-100 ">
-			<div class="row d-flex justify-content-center align-items-center h-100">
-				<div class="col-md-10 col-lg-8">
-					<div class="card rounded-3">
-						<div class="row g-0 shadow-lg">
-							<div class="col-lg-6 d-flex align-items-center">
-								<div class="card-body p-md-4 mx-md-3">
-	
-									<div class="text-center">
-										<img th:src="@{/images/logo.png}" style="width: 150px;" alt="logo">
-										<h2 class="mt-1 mb-4 pb-1">Una community per tutti!</h2>
+	<section class="h-100 gradient-form">
+	    <div class="container-lg py-2 h-90">
+	        <div class="row d-flex justify-content-center align-items-center h-100">
+	            <div class="col-md-10 col-lg-8">
+	                <div class="card rounded-3">
+	                    <div class="row g-0 shadow-lg">
+	                        <div class="col-lg-6 d-flex align-items-center text-center">
+	                            <div class="card-body p-2 mx-md-3 w-100">
+									<div class="pb-4">
+	                                <img th:src="@{/images/logo.png}" style="width: 150px;" alt="logo">
+	                                <h3 class="mt-1 mb-2 pb-1">Una community per tutti!</h3>
 									</div>
-	
-									<div class="text-center">
-										<form th:action="@{/login}" method="post">
-											<h5>Inserisci le tue credenziali per accedere</h5>
-											<div class="my-4">
-												<div class="form-outline mb-3">
-													<input type="text" class="form-control" id="email" name="username"
-														placeholder="La tua email" required />
-												</div>
-	
-												<div class="form-outline mb-3">
-													<input type="password" id="password" name="password"
-														class="form-control" placeholder="Password" required />
-												</div>
-	
-												<!-- Display login error message -->
-												<div th:if="${param.error != null}"
-													class="alert my-0 py-1 alert-danger text-center">
-													<p class="mb-0">Username o password errati</p>
-												</div>
-	
-	
-												<div class="text-center pt-1 mb-4 pb-1">
-													<button class="nav-link navbar-elements" type="submit">Log
-														in</button>
-												</div>
-	
-												<div class="d-flex align-items-center justify-content-center pb-3">
-													<h5 class="mb-0 me-2">Non hai un account?</h5>
-													<a th:href="@{/register}"
-														class="nav-link navbar-elements">Registrati</a>
-												</div>
-											</div>
-										</form>
-									</div>
-	
-								</div>
-							</div>
-							<div class="col-lg-6 d-flex align-items-center">
-								<img th:src="@{/images/loginImg.jpeg}" class="img-fluid card-img-large" alt="Login Image">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	
+	                                <form th:action="@{/login}" method="post">
+	                                    <h5>Inserisci le tue credenziali per accedere</h5>
+	                                    <div class="my-4">
+	                                        <div class="form-outline mb-3">
+	                                            <input type="text" class="form-control" id="email" name="username" placeholder="La tua email" required />
+	                                        </div>
+	                                        <div class="form-outline mb-3">
+	                                            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required />
+	                                        </div>
+	                                        <!-- Display login error message -->
+	                                        <div th:if="${param.error != null}" class="alert my-0 py-1 alert-danger text-center">
+	                                            <p class="mb-0">Username o password errati</p>
+	                                        </div>
+	                                        <div class="text-center pt-1 mb-4 pb-1">
+	                                            <button class="nav-link navbar-elements" type="submit">Log in</button>
+	                                        </div>
+	                                        <div class="d-flex align-items-center justify-content-center pb-3">
+	                                            <h5 class="mb-0 me-2">Non hai un account?</h5>
+	                                            <a th:href="@{/register}" class="nav-link navbar-elements">Registrati</a>
+	                                        </div>
+	                                    </div>
+	                                </form>
+	                            </div>
+	                        </div>
+	                        <!-- Right side: Image -->
+	                        <div class="col-lg-6 d-flex align-items-center">
+	                            <img th:src="@{/images/imageRegister.jpg}" class="img-fluid w-100 h-100 card-img-large" style="object-fit: cover;" alt="Login Image">
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</section>
 
 
+	
+
+	
 </body>

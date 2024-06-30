@@ -18,6 +18,10 @@ import jakarta.validation.constraints.NotBlank;
 public class User {
 	
 	private final static String DEFAULT_USER_IMAGE = "/images/defaultimage.png"; 
+    @SuppressWarnings("unused")
+	public
+	final static String UPLOADED_FOLDER_PROFILEPICS = "src/main/resources/static/images/profilePics/";
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +39,7 @@ public class User {
 
 	private String profilePic;
 
-	@OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
 	private Cook cook;
 
 	public User() {
