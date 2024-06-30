@@ -5,6 +5,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
@@ -27,11 +30,17 @@ public class AuthController {
         return "login";
     }
 
-    @GetMapping("/registration")
+    @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("credentials", new Credentials());
-        return "registration";
+        model.addAttribute("user", new User());
+        return "formRegister";
     }
+    
+    @GetMapping("/register")
+    public String registerUser(@ModelAttribute("Credentials") Credentials c,@ModelAttribute("User") User u, @RequestParam
+     
+    
 
     
     /*

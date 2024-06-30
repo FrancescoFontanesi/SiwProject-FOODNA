@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Welcome!</title>
+	<link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+	<link rel="stylesheet" th:href="@{/css/cssBootstrap/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/stile.css}">
+	<link rel="stylesheet" th:href="@{/css/icons/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css}">
+	<script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script defer src="js/bootstrap.bundle.min.js"></script>
+
+
+</head>
+
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-white">
+		<div class="container-fluid d-flex justify-content-between align-items-center">
+
+			<div class="d-flex " style="margin-right: 10px">
+				<a href="#" class="nav-link me-1"><i class="bi bi-facebook"></i></a>
+				<a href="#" class="nav-link me-1"><i class="bi bi-twitter"></i></a>
+				<a href="#" class="nav-link me-1"><i class="bi bi-instagram"></i></a>
+				<a href="#" class="nav-link me-1"><i class="bi bi-youtube"></i></a>
+			</div>
+
+			<a class="nav-brand navbar-elements" width="160" height="80" th:href="@{/recipes}">Ricette</a>
+			<div class="d-flex align-items-center">
+				<ul class="navbar-nav d-flex">
+					<li class="nav-item">
+						<a class="navbar-brand mr-0" th:href="@{/}" style="margin-right: 0px;">
+							<img th:src="@{/images/logo.png}" width="160" height="80" alt="Logo">
+						</a>
+					</li>
+				</ul>
+			</div>
+			<a class="nav-brand navbar-elements" th:href="@{/cooks}">Cuochi</a>
+			<div sec:authorize="isAnonymous()" class="ml-auto">
+				<a class=" navbar-elements-blank">Login</a>
+			</div>
+			<div sec:authorize="isAuthenticated()">
+				<a class="nav-link navbar-elements" th:href="@{/myProfile}">Profilo</a>
+			</div>
+		</div>
+	</nav>
+
+<section class="h-100 gradient-form">
+    <div class="container-lg py-2 h-90">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-10 col-lg-8">
+                <div class="card rounded-3">
+                    <div class="row g-0 shadow-lg">
+                        <!-- Right side image or content -->
+                        <div class="col-lg-6 d-flex align-items-center">
+                            <img th:src="@{/images/imageRegister.jpg}" class="img-fluid w-100 h-100 card-img-large" style="object-fit: cover;" alt="Login Image">
+                        </div>
+                        
+                        <div class="col-lg-6 d-flex align-items-center">
+                            <div class="card-body p-2 mx-md-3">
+                                <div class="text-center">
+                                    <img th:src="@{/images/logo.png}" style="width: 150px;" alt="logo">
+                                    <h3 class="mt-1 mb-2 pb-1">Una community per tutti!</h3>
+                                </div>
+                                <div class="text-center">
+                                    <form th:action="@{/register}" method="post" enctype="multipart/form-data">
+                                        <div class="my-2">
+                                            <div class="form-outline mb-2">
+                                                <input type="email" th:field="${credentials.email}" class="form-control" id="email" name="email" placeholder="La tua email" required />
+                                            </div>
+                                            
+                                            <div class="form-outline mb-2">
+                                                <input type="password" th:field="${credentials.password}" class="form-control" id="password" name="password" placeholder="Password" required />
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-outline mb-2">
+                                                        <input type="text" th:field="${user.name}" class="form-control" id="name" name="name" placeholder="Il tuo nome" required />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-outline mb-2">
+                                                        <input type="text" th:field="${user.surname}" class="form-control" id="surname" name="surname" placeholder="Il tuo cognome" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-outline mb-2">
+                                                <textarea th:field="${user.bio}" class="form-control" id="bio" name="bio" placeholder="Breve bio" rows="2"></textarea>
+                                            </div>
+                                            
+                                            <div class="form-outline mb-2">
+                                                <input type="text" th:field="${user.birthDate}" class="form-control" id="birthDate" name="birthDate" placeholder="Data di nascita (dd/MM/yyyy)" />
+                                            </div>
+                                            
+                                            <div class="form-outline mb-2">
+                                                <input type="file" th:field="${user.profilePic}" class="form-control" id="profilePic" name="profilePic" required />
+                                            </div>
+                                            
+                                            <!-- Display login error message -->
+                                            <div th:if="${param.error != null}" class="alert my-0 py-1 alert-danger text-center">
+                                                <p class="mb-0">Ricontrolla i dati inseriti</p>
+                                            </div>
+                                            
+                                            <div class="text-center pt-1 pb-1">
+                                                <button class="nav-link navbar-elements" type="submit">Registrati</button>
+                                            </div>
+                                            
+                                            <div class="d-flex align-items-center justify-content-center pb-1">
+                                                <h5 class="mb-0 me-2">Sei gia Registrato?</h5>
+                                                <a th:href="@{/login}" class="nav-link navbar-elements">Login</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+</body>

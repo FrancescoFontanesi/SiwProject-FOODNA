@@ -255,6 +255,11 @@ box-shadow{
 }
 
 
+.fixed-size-tabs-admin  {
+    width: 50%; /* Adjust as per your design needs */
+    text-align: center; /* Center align the text within the button */
+}
+
 
 .hr-text {
     position: relative;

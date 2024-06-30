@@ -50,7 +50,7 @@
 		    <div class="container-lg py-4">
 		        <div class="row justify-content-center align-items-center">
 		            <div class="col-md-10 col-lg-8">
-		                <div class="card rounded-3">
+		                <div class="card rounded-3 shadow-lg">
 		                    <div class="card-body p-md-4 mx-md-3">
 		
 		                        <div class="text-center mb-4 mainText">
@@ -61,6 +61,8 @@
 		                            <p th:text="'&quot;' + ${user.bio} + '&quot;'" class="mb-1">Bio goes here...</p>
 		                            <p th:text="${user.birthDate}">Birthdate: dd/mm/yyyy</p>
 		                            <a th:href="@{cook/edit/{id}(id=${user.id})}" class="mr-2"><i class="bi bi-pen"></i></a>
+		                            <a th:href="@{cook/delete/{id}(id=${user.id})}" class="mr-2"><i class="bi bi-trash"></i></a>
+
 		                        </div>
 		
 		                        <div class="tab-container my-4 mainText2">
