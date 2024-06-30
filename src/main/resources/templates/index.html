@@ -24,18 +24,16 @@
 	        </div>
             
 			<a class="nav-brand navbar-elements" width="160" height="80" th:href="@{/recipes}">Ricette</a>
-	        <!-- Centered Logo with Links -->
 	        <div class="d-flex align-items-center">
 	            <ul class="navbar-nav d-flex">
 	                <li class="nav-item">
 	                    <a class="navbar-brand mr-0" th:href="@{/}"	style="margin-right: 0px;">
-	                        <img src="images/logo.png" width="160" height="80" alt="Logo">
+							<img th:src="@{/images/logo.png}" width="160" height="80" alt="Logo">
 	                    </a>
 	                </li>
 	            </ul>
 	        </div>
 			<a class="nav-brand navbar-elements" th:href="@{/cooks}">Cuochi</a>	 
-	        <!-- Login Button -->
 	        <div sec:authorize="isAnonymous()" class="ml-auto">
 	            <a class="nav-link navbar-elements" href="/login">Login</a>
 	        </div>
@@ -52,10 +50,14 @@
 	            <img th:src="@{images/back1.1.png}" class="img-fluid mx-0 d-block" style="width: 100%; height: auto;">
 	        </div>
 	        <div class="col-lg-5 d-flex align-items-center justify-content-center">
-	            <div class="text-center" style="background-image: url(../images/plates);">
-	                <h1 style="font-weight: 700;" >Benvenuto</h1>
+	            <div sec:authorize="isAnonymous()" class="text-center">
+	                <h1 style="font-weight: 700;">Benvenuto!</h1>
 	                <p class="mainText">Esplora il nostro sito e entra a far parte della nostra community</p>
 	                <a th:href="@{/register}" class="nav-link navbar-elements mainText">Iscriviti</a>
+	            </div>
+					<div sec:authorize="isAuthenticated()" class="text-center">
+						<h1 style="font-weight: 700;">Benvenuto!</h1>
+					    <h1 style="font-weight: 500;">Publica le tue ricette e salva le tue preferite!</h1>
 	            </div>
 	        </div>
 	        <div class="px-0 col-lg-3">

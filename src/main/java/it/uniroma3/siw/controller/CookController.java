@@ -5,19 +5,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import it.uniroma3.siw.service.CookService;
+import it.uniroma3.siw.service.UserService;
 
 @Controller
 public class CookController {
 
 	@Autowired
-	private CookService cookService;
+	private UserService userService;
 
 	@GetMapping("/cooks")
 	public String getCooks(Model m) {
-		m.addAttribute("cooks", cookService.addCooks());
-		return "cooks";
-		
+		userService.addAllCooksUsers(m);
+		return "cooks";	
 	}
 	
 	

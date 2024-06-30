@@ -16,32 +16,31 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Recipe {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@NotNull
+	@NotNull(message="Il nome non puo essere vuoto")
 	private String name;
 	
 	private String description;
 	
-	@NotBlank(message = "Category can not be empty")
+	@NotBlank(message = "La categoria non puo essere vuota")
 	private String category;
 	
 	@ManyToOne
 	private Cook cook;
 
+	@NotNull
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "recipe")
 	private List<Ingredient> ingredients;
 
-
-	private List<String> imagesPath;
 
 	@NotNull
 	private String mainImagePath;
 
 	public Recipe() {
-		this.imagesPath = new ArrayList<>();
 		this.ingredients = new ArrayList<>();
 	}
 
@@ -89,13 +88,6 @@ public class Recipe {
 		this.cook = cook;
 	}
 
-	public List<String> getImagesPath() {
-		return imagesPath;
-	}
-
-	public void setImagesPath(List<String> imagesPath) {
-		this.imagesPath = imagesPath;
-	}
 
 	public String getMainImagePath() {
 		return mainImagePath;

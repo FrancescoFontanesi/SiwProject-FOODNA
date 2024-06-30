@@ -1,0 +1,120 @@
+	<!DOCTYPE html>
+	<html lang="it">
+	
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Welcome!</title>
+		<link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+		<link rel="stylesheet" th:href="@{/css/cssBootstrap/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/css/stile.css}">
+		<link rel="stylesheet" th:href="@{/css/icons/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css}">
+		<script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
+		<script defer src="js/bootstrap.bundle.min.js"></script>
+	
+	
+	</head>
+	
+	<body>
+	
+		<nav class="navbar navbar-expand-lg navbar-light bg-white">
+			<div class="container-fluid d-flex justify-content-between align-items-center">
+	
+				<div class="d-flex " style="margin-right: 10px">
+					<a href="#" class="nav-link me-1"><i class="bi bi-facebook"></i></a>
+					<a href="#" class="nav-link me-1"><i class="bi bi-twitter"></i></a>
+					<a href="#" class="nav-link me-1"><i class="bi bi-instagram"></i></a>
+					<a href="#" class="nav-link me-1"><i class="bi bi-youtube"></i></a>
+				</div>
+	
+				<a class="nav-brand navbar-elements" width="160" height="80" th:href="@{/recipes}">Ricette</a>
+				<div class="d-flex align-items-center">
+					<ul class="navbar-nav d-flex">
+						<li class="nav-item">
+							<a class="navbar-brand mr-0" th:href="@{/}" style="margin-right: 0px;">
+							<img th:src="@{/images/logo.png}" width="160" height="80" alt="Logo">
+							</a>
+						</li>
+					</ul>
+				</div>
+				<a class="nav-brand navbar-elements" th:href="@{/cooks}">Cuochi</a>
+				<div sec:authorize="isAuthenticated()">
+					<a class="nav-link navbar-elements" href="/logout">Logout</a>
+				</div>
+			</div>
+		</nav>
+		
+		<div class="my-5"></div>
+		
+		<section class="h-100 gradient-form box-shadow">
+		    <div class="container-lg py-4">
+		        <div class="row justify-content-center align-items-center">
+		            <div class="col-md-10 col-lg-8">
+		                <div class="card rounded-3">
+		                    <div class="card-body p-md-4 mx-md-3">
+		
+		                        <div class="text-center mb-4 mainText">
+									<div class="profile-pic-container">
+									    <img th:src="${user.profilePic}" class="profile-pic" alt="Profile Picture">
+									</div>
+		                            <h2 th:text="${user.name} + ' ' + ${user.surname}">Name Surname</h2>
+		                            <p th:text="'&quot;' + ${user.bio} + '&quot;'" class="mb-1">Bio goes here...</p>
+		                            <p th:text="${user.birthDate}">Birthdate: dd/mm/yyyy</p>
+		                            <a th:href="@{cook/edit/{id}(id=${user.id})}" class="mr-2"><i class="bi bi-pen"></i></a>
+		                        </div>
+		
+		                        <div class="tab-container my-4 mainText2">
+		                            <ul class="nav nav-tabs nav-fill" id="userTab" role="tablist">
+		                                <li class="nav-item fixed-size-tabs " role="presentation">
+		                                    <button class="nav-link active " id="personal-recipes-tab" data-bs-toggle="tab" data-bs-target="#personal-recipes" type="button" role="tab" aria-controls="personal-recipes" aria-selected="true">Le tue ricette</button>
+		                                </li>
+		                                <li class="nav-item fixed-size-tabs " role="presentation">
+		                                    <button class="nav-link" id="favorite-recipes-tab" data-bs-toggle="tab" data-bs-target="#favorite-recipes" type="button" role="tab" aria-controls="favorite-recipes" aria-selected="false">Likes</button>
+		                                </li>
+		                                <li class="nav-item fixed-size-tabs" role="presentation">
+		                                    <button class="nav-link" id="liked-cooks-tab" data-bs-toggle="tab" data-bs-target="#liked-cooks" type="button" role="tab" aria-controls="liked-cooks" aria-selected="false">Follows</button>
+		                                </li>
+		                            </ul>
+		                            <div class="tab-content pt-3" id="userTabContent">
+		                                <!-- Personal Recipes -->
+		                                <div class="tab-pane fade show active text-center" id="personal-recipes" role="tabpanel" aria-labelledby="personal-recipes-tab justify-items-center">
+											<p th:if="${user.cook.personalRecipes.isEmpty()}" class="mainText1 text-center mt-3">Non hai ancora creato nessuna ricetta</p>
+											<ul class="list-group my-3" th:if="${!user.cook.personalRecipes.isEmpty()}">
+		                                        <li class="list-group-item" th:each="recipe : ${user.cook.personalRecipes}" th:text="${recipe.name}">Recipe Name</li>
+		                                    </ul>
+		                                    <a class="nav-link  text-center navbar-elements" th:href="@{/addRecipe}">Crea</a>
+
+		                                </div>
+		                                <!-- Favorite Recipes -->
+		                                <div class="tab-pane fade text-center" id="favorite-recipes" role="tabpanel" aria-labelledby="favorite-recipes-tab">
+											<p th:if="${user.cook.favoritesRecipes.isEmpty()}" class="mainText1 text-center mt-3">Non hai aggiunto nessuna ricetta alle tue preferite</p>
+											<ul class="list-group mt-3" th:if="${!user.cook.favoritesRecipes.isEmpty()}">
+		                                        <li class="list-group-item" th:each="recipe : ${user.cook.favoritesRecipes}" th:text="${recipe.name}">Recipe Name</li>
+		                                    </ul>
+										    <a class="nav-link  text-center navbar-elements" th:href="@{/recipes}">Scoprile</a>
+
+		                                </div>
+		                                <!-- Liked Cooks -->
+		                                <div class="tab-pane fade text-center" id="liked-cooks" role="tabpanel" aria-labelledby="liked-cooks-tab">
+											 <p th:if="${user.cook.likedCooks.isEmpty()}" class="text-muted text-center mt-3">Non hai seguito nessuo dei nostri cuochi</p>
+											<ul class="list-group mt-3" th:if="${!user.cook.likedCooks.isEmpty()}">
+		                                        <li class="list-group-item" th:each="likedCook : ${user.cook.likedCooks}" th:text="${likedCook.name} + ' ' + ${likedCook.surname}">Cook Name</li>
+		                                    </ul>
+										  <a class="nav-link  text-center navbar-elements" th:href="@{/cooks}">Scoprili</a>
+
+		                                </div>
+		                            </div>
+		                        </div>
+		
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</section>
+
+		    <!-- Bootstrap JS and dependencies -->
+		    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	
+		
+	</body>

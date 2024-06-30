@@ -26,7 +26,7 @@ public class SampleDataLoader implements CommandLineRunner {
         // Creating a regular user
         User admin = new User();
         admin.setName("Adimin");
-        admin.setSurname("");
+        admin.setSurname("Test");
 
 
         Credentials adminCredentials = new Credentials();
@@ -46,15 +46,17 @@ public class SampleDataLoader implements CommandLineRunner {
         
       
         Credentials cook1Credentials = new Credentials();
-        adminCredentials.setEmail("cook1@gmail.com");
-        adminCredentials.setPassword(passwordEncoder.encode("pass"));
-        adminCredentials.setRole(Credentials.COOK_ROLE);
-        adminCredentials.setUser(cook1);
+        cook1Credentials.setEmail("cook1@gmail.com");
+        cook1Credentials.setPassword(passwordEncoder.encode("pass"));
+        cook1Credentials.setRole(Credentials.COOK_ROLE);
+        cook1Credentials.setUser(cook1);
 
         credentialsRepository.save(cook1Credentials);
 
 
-
+        System.out.println("Loading -> " + adminCredentials.toString());
+        System.out.println("Loading -> " + cook1Credentials.toString());
+                
         System.out.println("Users data loaded.");
         
         

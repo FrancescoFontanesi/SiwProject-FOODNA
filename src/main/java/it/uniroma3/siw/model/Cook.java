@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Cook {
@@ -19,24 +20,28 @@ public class Cook {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	@OneToOne
+	private User user;
 	
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cook") 
 	private List<Recipe> personalRecipes;
 
-	@OneToMany(fetch = FetchType.LAZY) private List<Recipe> favorites;
-
-	@OneToMany(fetch = FetchType.LAZY) private List<Ingredient> shoppingList;
-
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cook")
+	private List<Recipe> favoritesRecipes;
+	
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<User> likedCooks;
+	
+	private Integer numberOfFollows;
+	
 	public Cook() {
 		this.personalRecipes = new ArrayList<>(); 
-		this.favorites = new ArrayList<>();
-		this.shoppingList = new ArrayList<>();
+		this.favoritesRecipes = new ArrayList<>();
+		this.likedCooks = new ArrayList<>();
+		this.numberOfFollows = 0;
 	}
-	
 
-
-	// Getters and Setters
 	public Long getId() {
 		return id;
 	}
@@ -46,24 +51,51 @@ public class Cook {
 	}
 
 
-	public List<Recipe> getPersonal() { return personalRecipes; }
+	public List<Recipe> getPersonalRecipes() {
+		return personalRecipes;
+	}
 
-	public void setPersonal(List<Recipe> personal) { this.personalRecipes = personal; }
+	public void setPersonalRecipes(List<Recipe> personalRecipes) {
+		this.personalRecipes = personalRecipes;
+	}
 
+	public List<Recipe> getFavoritesRecipes() {
+		return favoritesRecipes;
+	}
 
-	public List<Recipe> getFavorites() { return favorites; }
+	public void setFavoritesRecipes(List<Recipe> favoritesRecipes) {
+		this.favoritesRecipes = favoritesRecipes;
+	}
 
-	public void setFavorites(List<Recipe> favorites) { this.favorites =
-			favorites; }
+	public List<User> getLikedCooks() {
+		return likedCooks;
+	}
 
-	public List<Ingredient> getShoppingList() { return shoppingList; }
+	public void setLikedCooks(List<User> likedCooks) {
+		this.likedCooks = likedCooks;
+	}
 
-	public void setShoppingList(List<Ingredient> shoppingList) {
-		this.shoppingList = shoppingList; }
+	public Integer getNumberOfFollows() {
+		return numberOfFollows;
+	}
 
+	public void setNumberOfFollows(Integer numberOfFollows) {
+		this.numberOfFollows = numberOfFollows;
+	}
 
 	@Override
 	public String toString() {
-		return ",  " + " personalRecipes =" + personalRecipes + ", favorites=" + favorites + ", shoppingList=" + shoppingList + ", ";
+		return "personalRecipes=" + personalRecipes + ", favoritesRecipes=" + favoritesRecipes + ", likedCooks="
+				+ likedCooks + ", numberOfFollows=" + numberOfFollows;
 	}
+
+	
+   
+	
+
+	
+	
+	
+	
 }
+

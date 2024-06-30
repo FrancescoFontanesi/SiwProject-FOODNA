@@ -17,6 +17,19 @@ body {
 .card-img-top {
     border-radius: 12px; /* Adjust the border-radius as per your design */
     padding: 8px; /* Adjust padding as needed */
+    height: 272px;
+    width: 272px;
+    object-fit: cover;
+}
+
+.card-img-large{
+	border-radius: 12px; /* Adjust the border-radius as per your design */
+    padding: 8px; /* Adjust padding as needed */
+	
+}
+
+shadow-lg{
+	    border-radius: 0.375rem;
 }
 
 .font{
@@ -24,6 +37,7 @@ body {
     font-weight: normal;
     font-style: normal;
     src: url('font/AntipastoPro-Medium_trial.ttf') format('truetype');
+    color: rgb(70, 70, 70);
 }
 .hr-style {
 	border: 0;
@@ -73,6 +87,26 @@ body {
 }
 
 
+.navbar-elements-blank{
+	color: white;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  
+  display: inline-block;
+  padding: 15px 20px;
+  position: relative;
+  font-weight: bold;
+  user-select: none;			
+}
+
+.blank{
+	user-select: none;
+}
+
+box-shadow{
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 
 .navbar-elements{
   color: black;
@@ -194,6 +228,31 @@ body {
 	 animation-range: 70% 95%;
 }
 
+.profile-pic-container {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0; /* Optional: background color for better visibility */
+    margin: 0 auto; /* Center horizontally */
+}
+
+.profile-pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+
+.fixed-size-tabs  {
+    width: 33%; /* Adjust as per your design needs */
+    text-align: center; /* Center align the text within the button */
+}
 
 
 
@@ -202,6 +261,10 @@ body {
     border: none;
     height: 1px;
     background: #999;
+}
+
+.mainText2{
+	font-size: 18px;
 }
 
 .mainText{

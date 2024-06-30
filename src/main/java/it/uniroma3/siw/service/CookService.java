@@ -10,12 +10,5 @@ import it.uniroma3.siw.repository.CookRepository;
 @Service
 public class CookService {
      
-	@Autowired
-	private CookRepository cookRepository;
-
-	public Iterable<Cook> addCooks() {
-	     
-		return cookRepository.findAll();
-	}
-
+	
 }

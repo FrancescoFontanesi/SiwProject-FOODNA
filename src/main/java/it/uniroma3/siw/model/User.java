@@ -2,6 +2,7 @@ package it.uniroma3.siw.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,7 +35,7 @@ public class User {
 
 	private String profilePic;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Cook cook;
 
 	public User() {
@@ -131,10 +132,17 @@ public class User {
 
 	@Override
 	public String toString() {
-		if (this.cook != null)
-			return "User [id=" + id + ", name=" + name + ", surname=" + surname + ", " + cook.toString() + "]";
-		else
-			return "User [id=" + id + ", name=" + name + ", surname=" + surname + "]";
-
+		if(this.cook==null) {
+		return "Admin [name=" + name + ", surname=" + surname + ", bio=" + bio + ", birthDate="
+				+ birthDate +"]";
+		}
+		else {
+			return "Cook [name=" + name + ", surname=" + surname + ", bio=" + bio + ", birthDate="
+			+ birthDate + ", personalRecipes=" + cook +"]";
+		}
 	}
+
+		
+
+	
 }

@@ -11,8 +11,8 @@
 	<link rel="stylesheet" th:href="@{/css/icons/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css}">
 	<script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
 	<script defer src="js/bootstrap.bundle.min.js"></script>
-
-
+	
+	
 </head>
 
 <body>
@@ -31,13 +31,13 @@
 			<div class="d-flex align-items-center">
 				<ul class="navbar-nav d-flex">
 					<li class="nav-item">
-						<a class="navbar-brand mr-0" th:href="@{/}" style="margin-right: 0px;">
-							<img th:src="@{/images/logo.png}" width="160" height="80" alt="Logo">
+						<a class="navbar-brand mr-0" th:href="@{/}" style="margin-right: 0px;"> 												
+						<img th:src="@{/images/logo.png}" width="160" height="80" alt="Logo">
 						</a>
 					</li>
 				</ul>
 			</div>
-			<a class="nav-brand navbar-elements" th:href="@{/users}">Cuochi</a>
+			<a class="nav-brand navbar-elements" th:href="@{/cooks}">Cuochi</a>
 			<div sec:authorize="isAnonymous()" class="ml-auto">
 				<a class="nav-link navbar-elements" href="/login">Login</a>
 			</div>
@@ -46,54 +46,63 @@
 			</div>
 		</div>
 	</nav>
-	<div class="container text-center my-4">
+	
+	<div class="container text-center my-4 py-4">
 		<div class="row justify-content-md-center">
 			<div class="col col-lg-6">
-				<h1 class="nav-brand mainText">I NOSTI CUOCHI</h1>
+				<h1 class="nav-brand mainText">DESSERT</h1>
 				<hr class="hr-style">
 			</div>
 		</div>
 	</div>
-
-
+	
+	
 	<div class="container-xl mx-auto by-2">
-
-		
-		<div class="row mx-5 my-4 row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-			<div th:if="${cooks.isEmpty()}" class="col-12">
-				<div class="alert alert-info d-flex justify-content-center align-items-center" role="alert">
-					Non ci sono ancora utenti registrati. Iscriviti per primo!
+		<div class="row mx-5 my-4 row-cols-4 row-cols-lg-4 g-4 	justify-content-center">
+			<div th:if="${c3.isEmpty()}" class="col-12">
+				<div class="alert alert-info" role="alert">
+					Non ci sono ricette relative a questa Portata.
 				</div>
 			</div>
-			<div th:each="user : ${cooks}" th:if="${!cooks.isEmpty()}" class="col">
+			<div th:each="recipe : ${c3}" class="col">
 				<div class="card h-100 card-hover">
-					<img th:src="@{${user.profilePic}}" class="card-img-top" alt="User Profile Picture">
-					<div class="card-body">
+					<img th:src="@{${recipe.mainImagePath}}" class="card-img-top mx-auto d-block" alt="Recipe Image">
+					<div class="card-body d-flex flex-column justify-content-center align-items-center">
 						<div class="d-flex justify-content-center align-items-center gap-4">
+	
 							<div th:if="${#authentication.authorities[0].authority != 'ADMIN'}" class="px-2">
-								<i class="bi bi-trash" style="color: white;"></i>
+								<a th:href="@{/addToFavorites/{recipeId}(recipeId=${recipe.id})}"><i class="bi bi-heart heart-icon"></i></a>
+							</div>
+	
+							<div th:if="${#authentication.authorities[0].authority == 'ADMIN'}" class="px-2">
+								<a th:href="@{/admin/edit/{recipeId}(recipeId=${recipe.id})}" class="mr-2"><i
+										class="bi bi-pen"></i></a>
+								
+							</div>
+							<h4 class="card-title mainText mb-1 text-center flex-grow-1" th:text="${recipe.name}">Card title
+							</h4>
+							<div sec:authorize="isAuthenticated()" th:if="${#authentication.authorities[0].authority != 'ADMIN'}" class="px-2">
+								<a th:href="@{/addToFavorites/{recipeId}(recipeId=${recipe.id})}"><i
+										class="bi bi-heart heart-icon"></i></a>
 							</div>
 							<div th:if="${#authentication.authorities[0].authority == 'ADMIN'}" class="px-2">
-								<a th:href="@{/admin/edit/{userId}(userId=${user.id})}" class="mr-2"><i
-										class="bi bi-pen"></i></a>
-								<a th:href="@{/admin/delete/{userId}(userId=${user.id})}"><i
-										class="bi bi-trash"></i></a>
-							</div>
-							<h4 class="card-title mainText mb-1 text-center flex-grow-1" th:text="${user.name}">Card
-								title</h4>
-							<div class="px-2">
-								<a th:href="@{/addToFavorites/{userId}(userId=${user.id})}"><i
-										class="bi bi-plus-circle"></i></a>
+								<a th:href="@{/admin/delete/{recipeId}(recipeId=${recipe.id})}"><i class="bi bi-trash"></i></a>
+							</div>	
+						    <div sec:authorize="isAnonymous()" class="px-2">
+						        <a th:href="@{/register}"><i
+										class="bi bi-heart heart-icon"></i></a>
 							</div>
 						</div>
 					</div>
+	
 				</div>
 			</div>
 		</div>
-
-
-		<div class="my-5"></div>
-
-
-
+	</div>
+	
+	
+	<div class="my-5"></div>
+	
+	
+	
 </body>
