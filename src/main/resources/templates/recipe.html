@@ -1,26 +1,93 @@
-
 <!DOCTYPE html>
 <html lang="it">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,
-        initial-scale=1.0">
-    <link rel="stylesheet" href="/css/styleIndx.css">
-    <title>SiwFood</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Welcome!</title>
+	<link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+	<link rel="stylesheet" th:href="@{/css/cssBootstrap/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/stile.css}">
+	<link rel="stylesheet" th:href="@{/css/icons/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css}">
+	<script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script defer src="js/bootstrap.bundle.min.js"></script>
+	
+	
 </head>
 
-
 <body>
-	
 
-    <div th:if="${recipe}">
-        <span th:text="${recipe.name}">Up!</span>
-        <span th:text="'(' + ${movie.year} + ')'">2000</span>
-        <span><img width="5%" th:src=${movie.urlImage} /></span>
-    </div>
-    <div th:unless="${movie}">Non esiste</div>
+	<nav class="navbar navbar-expand-lg navbar-light bg-white">
+		<div class="container-fluid d-flex justify-content-between align-items-center">
+
+			<div class="d-flex " style="margin-right: 10px">
+				<a href="#" class="nav-link me-1"><i class="bi bi-facebook"></i></a>
+				<a href="#" class="nav-link me-1"><i class="bi bi-twitter"></i></a>
+				<a href="#" class="nav-link me-1"><i class="bi bi-instagram"></i></a>
+				<a href="#" class="nav-link me-1"><i class="bi bi-youtube"></i></a>
+			</div>
+
+			<a class="nav-brand navbar-elements" width="160" height="80" th:href="@{/recipes}">Ricette</a>
+			<div class="d-flex align-items-center">
+				<ul class="navbar-nav d-flex">
+					<li class="nav-item">
+						<a class="navbar-brand mr-0" th:href="@{/}" style="margin-right: 0px;">
+							<img th:src="@{/images/logo.png}" width="160" height="80" alt="Logo">
+						</a>
+					</li>
+				</ul>
+			</div>
+			<a class="nav-brand navbar-elements" th:href="@{/cooks}">Cuochi</a>
+			<div sec:authorize="isAnonymous()" class="ml-auto">
+				<a class="nav-link navbar-elements" href="/login">Login</a>
+			</div>
+			<div sec:authorize="isAuthenticated()">
+				<a class="nav-link navbar-elements" th:href="@{/myProfile}">Profilo</a>
+			</div>
+		</div>
+	</nav>
 	
 	
+	<section class="h-100 gradient-form ">
+		<div class="container-lg py-4">
+			<div class="row justify-content-center align-items-center">
+				<div class="col-md-10 col-lg-8">
+					<div class="card rounded-3 shadow-lg">
+						<div class="card-body p-md-4 mx-md-3">
 	
-  </body>
+							<div class="text-center mb-4 ">
+								<div class="profile-pic-container">
+									<img th:src="@{${recipe.mainImagePath}}" class="profile-pic" alt="Profile Picture">
+								</div>
+								<div class="pt-3">
+								<h2 th:text="${recipe.name}"></h2>
+								<div class="large">
+									
+									<p th:if="${recipe.description} != null" th:text="'&quot;' + ${recipe.description} + '&quot;'" class="mb-1"></p>
+									<h4 th:text="${recipe.category}"></h4>
+									<h5>Offerta da:</h5>
+									<h4 th:if="${recipe.cook} == null"  class="mb-1">Le nostre ricette </h4>
+									
+									<h3 th:if="${recipe.cook} != null"  class="mb-1"> <a class="nav-link navbar-elements" th:href="@{/cook/{id}(id=recipe.cook.user.id)}"></a>
+
+									
+								</div>
+									
+									<div sec:authorize="isAuthenticated()">
+										<a th:href="@/edit/{id}(id=${recipe.id})}" class="mr-2"><i
+												class="bi bi-pen fs-5"></i></a>
+										<a th:href="@{/delete/{id}(id=${recipe.id})}" class="mr-2"><i
+												class="bi bi-trash fs-5"></i></a>
+									</div>
+								</div>
+							   </div>
+							</div>
+	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+</body>

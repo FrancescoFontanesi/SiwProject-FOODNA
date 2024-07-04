@@ -40,9 +40,10 @@ public class RecipeController {
 		return "c3.html";
 	}
 	
-	@GetMapping("/recipes/{id}")
+	@GetMapping("/recipe/{id}")
 	public String getRecipe(@PathVariable("id") Long id, Model model ) {
 		model.addAttribute("recipe", recipeService.getRecipe(id));
+		System.out.println(recipeService.getRecipe(id).toString());
 		return "recipe.html";
 	}
 	

@@ -17,8 +17,8 @@ body {
 .card-img-top {
     border-radius: 12px; /* Adjust the border-radius as per your design */
     padding: 8px; /* Adjust padding as needed */
-    height: 272px;
-    width: 272px;
+    height: 256px;
+    width: 100%;
     object-fit: cover;
 }
 

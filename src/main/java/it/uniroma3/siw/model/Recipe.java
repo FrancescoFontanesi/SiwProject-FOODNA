@@ -84,11 +84,11 @@ public class Recipe {
 
 
 
-	public Cook getCreator() {
+	public Cook getCook() {
 		return cook;
 	}
 
-	public void setCreator(Cook cook) {
+	public void getCook(Cook cook) {
 		this.cook = cook;
 	}
 
@@ -109,13 +109,6 @@ public class Recipe {
 		this.category = category;
 	}
 
-	public Cook getCook() {
-		return cook;
-	}
-
-	public void setCook(Cook cook) {
-		this.cook = cook;
-	}
 
 	@Override
 	public int hashCode() {
@@ -132,5 +125,11 @@ public class Recipe {
 			return false;
 		Recipe other = (Recipe) obj;
 		return Objects.equals(description, other.description);
+	}
+
+	@Override
+	public String toString() {
+		return "Recipe [id=" + id + ", name=" + name + ", description=" + description + ", category=" + category
+				+ ", cook=" + cook + ", ingredients=" + ingredients + ", mainImagePath=" + mainImagePath + "]";
 	}
 }
