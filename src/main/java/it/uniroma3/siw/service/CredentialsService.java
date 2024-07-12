@@ -38,6 +38,12 @@ public class CredentialsService  {
         Optional<Credentials> result = this.credentialsRepository.findByEmail(email);
         return result.orElse(null);
     }
+    
+    @Transactional
+    public Credentials getCredentials(User user) {
+        Optional<Credentials> result = this.credentialsRepository.findByUser(user);
+        return result.orElse(null);
+    }
 
 
     @Transactional
@@ -86,6 +92,7 @@ public class CredentialsService  {
 	public boolean emailExists(String email) {
             return credentialsRepository.existsByEmail(email);
 	}
+
 
 }  
     

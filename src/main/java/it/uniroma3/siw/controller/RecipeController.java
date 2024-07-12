@@ -1,11 +1,15 @@
 package it.uniroma3.siw.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import it.uniroma3.siw.model.Recipe;
 import it.uniroma3.siw.service.RecipeService;
 
 @Controller
@@ -18,27 +22,23 @@ public class RecipeController {
 
 	@GetMapping("/recipes")
 	public String getRecipes(Model model) {
-		model.addAttribute("c1", recipeService.findAllC1());
-		model.addAttribute("c2", recipeService.findAllC2());
-		model.addAttribute("c3", recipeService.findAllC3());
+		model.addAttribute("c1", recipeService.findAllC("Primi"));
+		model.addAttribute("c2", recipeService.findAllC("Secondi"));
+		model.addAttribute("c3", recipeService.findAllC("Dessert"));
 		return "recipes.html";
 	}
-	@GetMapping("/recipes/c1")
-	public String getRecipesC1(Model model) {
-		model.addAttribute("c1", recipeService.findAllC1());
-		return "c1.html";
+	@GetMapping("/recipes/{category}")
+	public String getRecipesByCategory(Model model, @PathVariable String category, @RequestParam(value = "Search", required = false) String search) {
+	    List<Recipe> recipes;
+	    if (search != null && !search.isEmpty()) {
+	        recipes = recipeService.findFromSearch(search, category);
+	    } else {
+	        recipes = recipeService.findAllC(category);
+	    }
+	    model.addAttribute("recipes", recipes);
+	    return category.toLowerCase(); 
 	}
-	@GetMapping("/recipes/c2")
-	public String getRecipesc2(Model model) {
-		model.addAttribute("c2", recipeService.findAllC2());
-		return "c2.html";
-	}
-	
-	@GetMapping("/recipes/c3")
-	public String getRecipesc3(Model model) {
-		model.addAttribute("c3", recipeService.findAllC3());
-		return "c3.html";
-	}
+
 	
 	@GetMapping("/recipe/{id}")
 	public String getRecipe(@PathVariable("id") Long id, Model model ) {

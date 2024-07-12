@@ -15,7 +15,7 @@
 	
 	</head>
 	
-	<body>
+	<body class="blank">
 	
 		<nav class="navbar navbar-expand-lg navbar-light bg-white">
 			<div class="container-fluid d-flex justify-content-between align-items-center">
@@ -44,9 +44,8 @@
 			</div>
 		</nav>
 		
-		<div class="my-5"></div>
 		
-		<section class="h-100 gradient-form box-shadow">
+		<section class="h-100 gradient-form ">
 		    <div class="container-lg py-4">
 		        <div class="row justify-content-center align-items-center">
 		            <div class="col-md-10 col-lg-8">
@@ -60,9 +59,76 @@
 		                            <h2 th:text="${user.name} + ' ' + ${user.surname}">Name Surname</h2>
 		                            <p th:text="'&quot;' + ${user.bio} + '&quot;'" class="mb-1">Bio goes here...</p>
 		                            <p th:text="${user.birthDate}">Birthdate: dd/mm/yyyy</p>
-		                            <a th:href="@{cook/edit/{id}(id=${user.id})}" class="mr-2"><i class="bi bi-pen"></i></a>
-		                            <a th:href="@{cook/delete/{id}(id=${user.id})}" class="mr-2"><i class="bi bi-trash"></i></a>
+		                            <div th:if="${param.error != null}" class="alert my-0 py-1 alert-danger text-center" id="error-message"
+										style="display:none;">
+										<p class="mb-0">L'email inserita non puo essere usata poiche' appartiene gia' ad un nostro utente</p>
+									</div>
+									<button class="mr-2 btn btn-link btn-custom1 pb-1" data-bs-toggle="modal" data-bs-target="#userModal"  >
+									  <i class="bi bi-pen"></i>
+									</button>
+									
+									<div class="modal" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+										
+										  <div class="modal-dialog">
+										    <div class="modal-content">
+										      <div class="modal-header">
+										        <h5 class="modal-title" id="userModalLabel">Update User Information</h5>
+										        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										      </div>
+										      <div class="modal-body">
+										        <form th:action="@{/updateUser/{id}(id=${user.id})}" method="post" enctype="multipart/form-data">
+										          <div class="my-2">
+										            <div class="form-outline mb-2">
+										              <input type="email" class="form-control" id="email" name="email" placeholder="La tua email"  >
+										            </div>
+										
+										            <div class="form-outline mb-2">
+										              <input type="password" class="form-control" id="password" name="password" placeholder="Password" >
+										            </div>
+										
+										            <div class="row">
+										              <div class="col-md-6">
+										                <div class="form-outline mb-2">
+										                  <input type="text" class="form-control" id="name" name="name" placeholder="Il tuo nome" >
+										                </div>
+										              </div>
+										              <div class="col-md-6">
+										                <div class="form-outline mb-2">
+										                  <input type="text" class="form-control" id="surname" name="surname" placeholder="Il tuo cognome" >
+										                </div>
+										              </div>
+										            </div>
+										
+										            <div class="form-outline mb-2">
+										              <textarea class="form-control" id="bio" name="bio" placeholder="Breve bio" rows="2"></textarea>
+										            </div>
+										
+										            <div class="form-outline mb-2">
+										              <input type="text" class="form-control" id="birthDate" name="birthDate" placeholder="Data di nascita (dd/MM/yyyy)" />
+										            </div>
+										
+										            <div class="form-outline mb-2">
+										              <input type="file" class="form-control" id="file" name="file">
+										            </div>
+				
+										
+										            <div class="text-center pt-1 pb-1">
+										              <button class="btn btn-primary" type="submit">Salva le modifiche</button>
+										            </div>
+										          </div>
+										        </form>
+										      </div>
+										      	
+										    </div>
+										  </div>
+										</div>
 
+									
+									
+									
+		                            <a th:href="@{/deleteUser/{id}(id=${user.id})}" onclick="return confirm('Sei sicuro di voler cancellare il tuo account?');" class="mr-2"><i class="bi bi-trash"></i></a>
+		                            
+									
 		                        </div>
 		
 		                        <div class="tab-container my-4 mainText2">

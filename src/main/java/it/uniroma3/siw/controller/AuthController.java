@@ -195,8 +195,8 @@ public class AuthController {
 		model.addAttribute("user", u);
 
 		switch (c.getRole()) {
-		case Credentials.COOK_ROLE:
-			return "cookPage";
+		case Credentials.COOK_ROLE:	
+			return "cookPersonalPage";
 		case Credentials.ADMIN_ROLE:
 			adminService.loadAllUserCredentials(model);
 			return "adminPage";

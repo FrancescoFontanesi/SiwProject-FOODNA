@@ -14,16 +14,16 @@ import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.UserService;
 
 @Controller
-public class AdminController {
+public class EditsController {
 	
-
+	
 	@Autowired
 	private UserService userService;
 	
 	@Autowired CredentialsService credentialsService;
 
 	
-	@PostMapping("admin/updateUser/{id}")
+	@PostMapping("/updateUser/{id}")
     public String updateUser(
         @RequestParam("email") String email,
         @RequestParam("password") String password,
@@ -39,15 +39,16 @@ public class AdminController {
 
         userService.updateUser(id, email, password, name, surname, bio, birthDate, file,model,redirectAttributes);
         
-        return "redirect:/cooks";
+        return "redirect:/login";
     }
 	
 	
-	@GetMapping("admin/deleteUser/{id}")
+	@GetMapping("/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
 		
 		credentialsService.deleteCredentials(credentialsService.getCredentials(userService.findById(id)).getId());
-        return "redirect:/cooks";
+        return "redirect:/logout";
     }
+
 
 }

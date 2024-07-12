@@ -14,10 +14,60 @@ body {
     font-family: 'AntipastoPro', sans-serif;
 }
 
+
+
+
+.card{
+	border-radius: 20px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.card-title {
+     text-align: center;
+    margin: 0 1rem;
+    max-width: 90%;
+}
+
+
+
+.bi-heart, .bi-pen, .bi-trash {
+    font-size: 1.25rem;
+    user-select: none;
+}
+
+@media (max-width: 768px) {
+    .row-cols-md-2 .col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    .row-cols-md-2 .col {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (min-width: 992px) {
+    .row-cols-lg-4 .col {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+
+
 .card-img-top {
-    border-radius: 12px; /* Adjust the border-radius as per your design */
+    border-radius: 18px; /* Adjust the border-radius as per your design */
     padding: 8px; /* Adjust padding as needed */
-    height: 256px;
+    height: 274px;
     width: 100%;
     object-fit: cover;
 }
@@ -47,6 +97,21 @@ shadow-lg{
 	border-radius: 10px;
 	margin: 20px 0;
 }
+
+
+ 
+.btn-custom1 {
+  padding: 0; /* Remove default padding */
+  border: none; /* Remove default button border if not needed */
+  font-size: 1.45rem;
+}   
+
+ 
+.btn-custom2 {
+  padding: 0; /* Remove default padding */
+  border: none; /* Remove default button border if not needed */
+  font-size: 1.2rem;
+}     
 
 
 /* Define the heart-pop animation */
@@ -82,8 +147,8 @@ shadow-lg{
 }
 
 .heart-icon:hover {
-    color: red; /* Change color on hover */
-  /*  animation: heart-pop 4s infinite;*//* Apply heart-pop animation on hover */
+    color: red; 
+    animation: heart-pop 4s infinite; 
 }
 
 
@@ -119,6 +184,20 @@ box-shadow{
   position: relative;
   font-weight: bold;
 }
+
+
+.navbar-elements-NoUnderline{
+  color: black;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  
+  display: inline-block;
+  padding: 15px 20px;
+  position: relative;
+  font-weight: bold;
+}
+
 .navbar-elements:after {    
   background: none repeat scroll 0 0 transparent;
   bottom: 0;
@@ -228,6 +307,16 @@ box-shadow{
 	 animation-range: 70% 95%;
 }
 
+.profile-pic-container-card {
+    height: 274px;
+    width: 100%;
+    object-fit: scale-down;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .profile-pic-container {
     width: 220px;
     height: 220px;
@@ -244,6 +333,10 @@ box-shadow{
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.alert{
+	text-align: center;
 }
 
 
