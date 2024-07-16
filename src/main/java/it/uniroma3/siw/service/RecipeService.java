@@ -32,6 +32,9 @@ public class RecipeService {
 
 	@Autowired
 	private CookRepository cookRepository;
+
+	@Autowired
+	private IngredientService ingredientService;
 	
 	
 	public List<Recipe> findAllC(String c){
@@ -117,5 +120,42 @@ public class RecipeService {
 		
 		
 	}
+	
+	@Transactional
+	public void updateRecipe(Recipe oldRecipe, Recipe newRecipe, MultipartFile file ) {
 
+		
+		if (newRecipe.getName() != null && !newRecipe.getName().isBlank()) {
+	        oldRecipe.setName(newRecipe.getName());
+	    }
+
+	    if (newRecipe.getDescription() != null && !newRecipe.getDescription().isBlank()) {
+	        oldRecipe.setDescription(newRecipe.getDescription());
+	    }
+
+	    if (newRecipe.getCategory() != null && !newRecipe.getCategory().isBlank()) {
+	        oldRecipe.setCategory(newRecipe.getCategory());
+	    }
+
+	    List<Ingredient> newIngredients = ingredientService.clearEmptyIngredients(newRecipe.getIngredients(), oldRecipe);
+	    if (!newIngredients.isEmpty()) {
+	        oldRecipe.getIngredients().clear();
+	        oldRecipe.getIngredients().addAll(newIngredients);
+	    }
+
+	    if (!file.isEmpty()) {
+	        storeFile(file,oldRecipe);
+	    }
+	    
+	    recipeRepository.save(oldRecipe);
+    }
+
+    @Transactional
+	public void deleteRecipe(Recipe recipe) {
+                recipeRepository.delete(recipe);		
+	}
+
+
+	
+	
 }

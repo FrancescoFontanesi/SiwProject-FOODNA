@@ -23,7 +23,7 @@ public class SampleDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Creating a regular user
+       /* Creating a regular user
         User admin = new User();
         admin.setName("Adimin");
         admin.setSurname("Test");
@@ -62,5 +62,5 @@ public class SampleDataLoader implements CommandLineRunner {
         System.out.println("Users data loaded.");
         
         
-    }
+    */}
 }

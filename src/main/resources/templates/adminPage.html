@@ -127,8 +127,10 @@
 									
 									
 									
-		                            <a th:href="@{/deleteUser/{id}(id=${user.id})}" onclick="return confirm('Sei sicuro di voler cancellare il tuo account?');" class="mr-2"><i class="bi bi-trash"></i></a>
-		                            
+										<form th:action="@{/deleteUser/{id}(id=${user.id})}" method="post" style="display:inline;">
+											<button onclick="return confirm('Sei sicuro di voler cancellare il tuo account?');" class="mr-2 btn btn-link btn-custom1 pb-1"><i
+													class="bi bi-trash"></i></button>
+										</form>
 		                        </div>
 		                        
 		                        <div class="tab-container my-4 mainText2">
@@ -180,12 +182,9 @@
 														<div th:if="${recipesWipeSucces != null}" class="alert my-0 py-1 alert-success text-center">
 															<p class="mb-0">Database svuotato con successo!</p>
 														</div>
-														<a th:href="@{/recipes}" class="nav-link navbar-elements">Modifica o canella ricette</a>
+														<a th:href="@{/recipes}" class="nav-link navbar-elements">Modifica o cancella ricette</a>
 													    <a class="nav-link navbar-elements" data-bs-toggle="modal" data-bs-target="#addRecipeModal">Aggiungi una ricetta</a>
-													    <div th:if="${recipeError != null}" class="alert my-0 py-1 alert-danger text-center">
-															<p class="mb-0">L'email inserita non puo' essere usata poich' appartiene gia' ad un nostro
-																utente</p>
-														</div>
+													
 														
 													</div>
 												</div>
@@ -272,7 +271,6 @@
 					</div>
 					<div class="modal-body">
 						<form th:action="@{/admin/addRecipe}" method="post" th:object="${recipe}" enctype="multipart/form-data">
-							<!-- Recipe Name and Category -->
 							<div class="pt-2 row align-items-center justify-content-center">
 								<div class="col-sm-4">
 									<div class="form-outline mb-2">
@@ -290,7 +288,6 @@
 								</div>
 							</div>
 		
-							<!-- Recipe Description -->
 							<div class="pt-2 row align-items-center justify-content-center">
 								<div class="col-sm-8">
 									<div class="form-outline mb-2">
@@ -300,7 +297,6 @@
 								</div>
 							</div>
 		
-							<!-- File Upload -->
 							<div class="pt-2 row align-items-center justify-content-center">
 								<div class="col-sm-8">
 									<div class="form-outline mb-2">
@@ -309,7 +305,6 @@
 								</div>
 							</div>
 		
-							<!-- Ingredients -->
 							<div class="row align-items-center justify-content-center">
 								<div id="ingredientsContainer">
 									<div class="row align-items-center justify-content-center mb-2"
@@ -332,12 +327,8 @@
 								</div>
 							</div>
 		
-							<!-- Error Message -->
-							<div th:if="${param.error != null}" class="alert my-0 py-1 alert-danger text-center">
-								<p class="mb-0">Hai già creato una ricetta con questo nome!</p>
-							</div>
+							
 		
-							<!-- Submit Button -->
 							<div class="form-group row">
 								<div class="col-sm-12 text-center">
 									<button type="submit" class="btn btn-primary">Crea la ricetta</button>

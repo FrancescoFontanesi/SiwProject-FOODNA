@@ -53,7 +53,6 @@
             <div class="col-md-10 col-lg-8">
                 <div class="card rounded-3">
                     <div class="row g-0 shadow-lg">
-                        <!-- Right side image or content -->
                         <div class="col-lg-6 d-flex align-items-center">
                             <img th:src="@{/images/imageRegister.jpg}" class="img-fluid w-100 h-100 card-img-large" style="object-fit: cover;" alt="Login Image">
                         </div>
@@ -100,7 +99,6 @@
                                                 <input type="file" class="form-control" id="file" name="file">
                                             </div>
                                             
-                                            <!-- Display login error message -->
                                             <div th:if="${param.error != null}" class="alert my-0 py-1 alert-danger text-center">
                                                 <p class="mb-0">L'email inserita non puo essere usata poiche' appartiene gia' ad un nostro utente</p>
                                             </div>

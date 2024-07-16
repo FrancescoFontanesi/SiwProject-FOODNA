@@ -31,8 +31,6 @@ public class AuthController {
 	@Autowired
 	private CredentialsService credentialsService;
 
-	@Autowired
-	private AdminService adminService;
 	
 	
 	@Autowired
@@ -79,7 +77,6 @@ public class AuthController {
 		Credentials c = credentialsService.getCredentials(auth.getName());
 		User u = c.getUser();
 		model.addAttribute("user", u);
-		System.out.println(u.getCook().toString());
 
 		switch (c.getRole()) {
 		case Credentials.COOK_ROLE:	

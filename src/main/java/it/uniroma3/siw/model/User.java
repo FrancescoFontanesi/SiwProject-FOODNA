@@ -4,9 +4,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -39,7 +41,8 @@ public class User {
 
 	private String profilePic;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cook_id")
 	private Cook cook;
 
 	public User() {

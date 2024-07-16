@@ -55,16 +55,16 @@
                                 <div class="pt-3">
 									<div class="text flex-grow-1 centered">
 										<div class="d-flex justify-content-center align-items-center gap-2">
-											<div th:if="${!liked}">
-											<div th:if="${#authentication.authorities[0].authority != 'ADMIN' and loggedUser != null }">
-												<div th:if="${recipe.cook==null or !liked and loggedUser.id != recipe.cook.user.id}">
+											<div th:if="${liked!=null}">
+												<div th:if="${!liked}">
+												<div th:if="${recipe.cook==null or loggedUser.id != recipe.cook.user.id}">
 													<form th:action="@{/addToFavorites/{recipeId}(recipeId=${recipe.id})}" method="post">
 														<button type="submit" class="btn btn-link p-0 m-0 align-baseline">
 															<i class="bi bi-heart heart-icon"></i>
 														</button>
 													</form>
 												</div>
-											</div>
+												</div>
 											</div>
 											<div sec:authorize="isAnonymous()">
 													<a th:href="@{/login}">
@@ -73,20 +73,30 @@
 												</div>
 											
 											
+											
+											
+						
 											<h2 th:text="${recipe.name}"></h2>
 											
-											<div th:if="${!liked}">
-																						
-												<div th:if="${#authentication.authorities[0].authority != 'ADMIN' and loggedUser != null }">
-													<div th:if="${recipe.cook==null or !liked and loggedUser.id != recipe.cook.user.id}">
+											
+											
+											
+											
+											
+											 
+											 
+											
+											<div th:if="${liked!=null}">
+												<div th:if="${!liked}">
+													<div th:if="${recipe.cook==null or loggedUser.id != recipe.cook.user.id}">
 														<form th:action="@{/addToFavorites/{recipeId}(recipeId=${recipe.id})}" method="post">
-																<button type="submit" class="btn btn-link p-0 m-0 align-baseline">
-																		<i class="bi bi-heart heart-icon"></i>
-																</button>
+															<button type="submit" class="btn btn-link p-0 m-0 align-baseline">
+																<i class="bi bi-heart heart-icon"></i>
+															</button>
 														</form>
 													</div>
 												</div>
-										     </div>
+											</div>
 											
 											<div sec:authorize="isAnonymous()">
 													<a th:href="@{/login}">
@@ -105,16 +115,13 @@
                                             <a class="nav-link navbar-elements fs-5" th:text="${recipe.cook.user.name} + ' ' +  ${recipe.cook.user.surname}" th:href="@{/cook/{id}(id=${recipe.cook.user.id})}"></a>
                                         </h3>
                                     </div>
-                                    <div th:if="${#authentication.authorities[0].authority == 'ADMIN'}">
-                                        <a th:href="@{/admin/editRecipe/{id}(id=${recipe.id})}" class="mr-2">
-                                            <i class="bi bi-pen fs-5"></i>
-                                        </a>
-                                        <a th:href="@{/admin/deleteRecipe/{id}(id=${recipe.id})}" class="mr-2">
-                                            <i class="bi bi-trash fs-5"></i>
-                                        </a>
-                                    </div>
+                                    
+                                    
+                                   
+									
+									
+									
 
-                                    <!-- Ingredients Section -->
                                     <div th:if="${!recipe.ingredients.isEmpty()}" class="text-center mt-1">
                                         <h4>Ingredienti</h4>
                                         <ul class="list-unstyled">
@@ -123,6 +130,34 @@
                                             </li>
                                         </ul>
                                     </div>
+                                    
+                                    <div th:if="${param.error != null}" class="alert my-0 py-1 alert-danger text-center">
+										<p class="mb-0">Hai gia creato una ricetta con questo nome!</p>
+									</div>
+                                    
+                                            <div th:if="${#authentication.authorities[0].authority == 'ADMIN'}">
+												<button class="mr-2 btn btn-link btn-custom1 pb-2" data-bs-toggle="modal" data-bs-target="#userModal">
+													<i class="bi bi-pen"></i>
+												</button>
+											
+												<form th:action="@{/admin/deleteRecipe/{id}(id=${recipe.id})}" method="post" style="display:inline;">
+													<button type="submit" class="mr-2 btn btn-link btn-custom1 pb-2"
+														onclick="return confirm('Sei sicuro di voler cancellare questa ricetta?');">
+														<i class="bi bi-trash"></i>
+													</button>
+												</form>
+											</div>
+											
+												<div th:if="${#authentication.authorities[0].authority == 'COOK' and ownerId!= null and ownerId == loggedUser.cook.id }">
+													<button class="mr-2 btn btn-link btn-custom1 pb-2" data-bs-toggle="modal" data-bs-target="#userModal">
+														<i class="bi bi-pen"></i>
+													</button>
+											
+													<form th:action="@{/deleteRecipe/{id}(id=${recipe.id})}" method="post" style="display:inline;">
+														<button onclick="return confirm('Sei sicuro di voler cancellare questa ricetta?');" class="mr-2 btn btn-link btn-custom1 pb-2"><i
+																class="bi bi-trash"></i></button>
+													</form>
+												</div>
 
                                 </div>
                             </div>
@@ -132,5 +167,178 @@
             </div>
         </div>
     </section>
+    
+    
+	<div th:if="${#authentication.authorities[0].authority == 'ADMIN'}" class="modal" id="userModal" tabindex="-1" aria-labelledby="userModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="userModalLabel">Update User Information</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+	
+					<div class="text-center">
+						<form th:action="@{/admin/editRecipe/{id} (id=${recipe.id})}" method="post" th:object="${editRecipe}" enctype="multipart/form-data">
+							<div class="pt-2 row align-items-center justify-content-center">
+								<div class="col-sm-4">
+									<div class="form-outline mb-2">
+										<input type="text" th:field="*{name}" class="form-control" id="recipeName"
+											name="recipeName"  placeholder="Nome" />
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<select class="form-control mb-2" th:field="*{category}" id="recipeCategory"
+										name="recipeCategory"  />
+									<option value="Primi">Primi</option>
+									<option value="Secondi">Secondi</option>
+									<option value="Dessert">Dessert</option>
+									</select>
+								</div>
+							</div>
+	
+							<div class="pt-2 row align-items-center justify-content-center">
+								<div class="col-sm-8">
+									<div class="form-outline mb-2">
+										<textarea class="form-control" th:field="*{description}" id="recipeDescription"
+											name="recipeDescription" rows="3"></textarea>
+									</div>
+								</div>
+							</div>
+	
+							<div class="pt-2 row align-items-center justify-content-center">
+								<div class="col-sm-8">
+									<div class="form-outline mb-2">
+										<input type="file" class="form-control" id="file" name="file">
+									</div>
+								</div>
+							</div>
+	
+	
+							<div class="row align-items-center justify-content-center">
+								<div id="ingredientsContainer">
+									<div class="row align-items-center justify-content-center mb-2"
+										th:each="ingredient, iterStat : *{ingredients}">
+										<div class="col-sm-6">
+											<div class="form-outline mb-2">
+												<input class="form-control"
+													th:field="*{ingredients[__${iterStat.index}__].name}"
+													placeholder="Nome dell'ingrediente">
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<div class="form-outline mb-2">
+												<input class="form-control"
+													th:field="*{ingredients[__${iterStat.index}__].quantity}"
+													placeholder="Quantita'">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+	
+	
+	
+	
+							<div class="form-group row">
+								<div class="col-sm-12 text-center">
+									<button type="submit" class="nav-link navbar-elements">Crea la ricetta </button>
+								</div>
+							</div>
+						</form>
+	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div th:if="${#authentication.authorities[0].authority == 'COOK' and ownerId!= null and ownerId == loggedUser.cook.id }" class="modal" id="userModal" tabindex="-1" aria-labelledby="userModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="userModalLabel">Aggiorna la tua ricetta</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+	
+					<div class="text-center">
+						<form th:action="@{/editRecipe/{id} (id=${recipe.id})}" method="post" th:object="${editRecipe}" enctype="multipart/form-data">
+							<div class="pt-2 row align-items-center justify-content-center">
+								<div class="col-sm-4">
+									<div class="form-outline mb-2">
+										<input type="text" th:field="*{name}" class="form-control" id="recipeName"
+											name="recipeName" th:value="${recipe.name}"  placeholder="Nome" />
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<select class="form-control mb-2" th:value="${recipe.category}" th:field="*{category}" id="recipeCategory"
+										name="recipeCategory"  />
+									<option value="Primi">Primi</option>
+									<option value="Secondi">Secondi</option>
+									<option value="Dessert">Dessert</option>
+									</select>
+								</div>
+							</div>
+	
+							<div class="pt-2 row align-items-center justify-content-center">
+								<div class="col-sm-8">
+									<div class="form-outline mb-2">
+										<textarea class="form-control" th:value="${recipe.description}" th:field="*{description}" id="recipeDescription"
+											name="recipeDescription" rows="3"></textarea>
+									</div>
+								</div>
+							</div>
+	
+							<div class="pt-2 row align-items-center justify-content-center">
+								<div class="col-sm-8">
+									<div class="form-outline mb-2">
+										<input type="file" class="form-control" id="file" name="file">
+									</div>
+								</div>
+							</div>
+	
+	
+							<div class="row align-items-center justify-content-center">
+								<div id="ingredientsContainer">
+									<div class="row align-items-center justify-content-center mb-2"
+										th:each="ingredient, iterStat : *{ingredients}">
+										<div class="col-sm-6">
+											<div class="form-outline mb-2">
+												<input class="form-control"
+													th:field="*{ingredients[__${iterStat.index}__].name}"
+													placeholder="Nome dell'ingrediente">
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<div class="form-outline mb-2">
+												<input class="form-control"
+													th:field="*{ingredients[__${iterStat.index}__].quantity}"
+													placeholder="Quantita'">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+	
+	
+	
+	
+							<div class="form-group row">
+								<div class="col-sm-12 text-center">
+									<button type="submit" class="nav-link navbar-elements">Aggiorna</button>
+								</div>
+							</div>
+						</form>
+	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+   
 </body>
 </html>

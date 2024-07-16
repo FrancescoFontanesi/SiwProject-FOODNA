@@ -75,14 +75,12 @@
 										</button>
 										
 										<form th:action="@{/admin/deleteUser/{id}(id=${user.id})}" method="post" style="display:inline;">
-											<a onclick="return confirm('Sei sicuro di voler cancellare questo account?');" class="mr-2"><i
-													class="bi bi-trash"></i></a>
+											<button onclick="return confirm('Sei sicuro di voler cancellare questo account?');" class="mr-2 btn btn-link btn-custom1 pb-1"><i
+													class="bi bi-trash"></i></button>
 										</form>
-										
-									
 									</div>
 									
-									<div class="modal" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+									<div sec:authorize="isAuthenticated()" class="modal" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
 										<div class="modal-dialog">
 											<div class="modal-content">
 												<div class="modal-header">

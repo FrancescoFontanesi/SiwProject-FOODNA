@@ -1,6 +1,7 @@
 package it.uniroma3.siw.controller;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -73,11 +74,30 @@ public class AdminController {
         return "redirect:/cooks";
     }
 	
+	@PostMapping("admin/editRecipe/{id}")
+	public String submitRecipeForm(@PathVariable("id") Long id,@Valid @ModelAttribute("editRecipe") Recipe newRecipe, BindingResult recipeBR,
+	                               @RequestParam("file") MultipartFile preview, Authentication auth,
+	                               RedirectAttributes redirectAttributes) throws AccessDeniedException {
+	    
+	    if (!recipeBR.hasErrors()) {
+	    	recipeService.updateRecipe(recipeService.getRecipe(id), newRecipe, preview);
+	    } else {
+	        redirectAttributes.addAttribute("error", true);
+	    }
+	    return "redirect:/recipe/" + id;
+	}
+	
 	
 	@PostMapping("/admin/deleteUser/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
 		credentialsService.deleteCredentials(credentialsService.getCredentials(userService.findById(id)).getId());
         return "redirect:/cooks";
+    }
+	
+	@PostMapping("/admin/deleteRecipe/{id}")
+    public String deleteRecipe(@PathVariable("id") Long id){
+		recipeService.deleteRecipe(recipeService.getRecipe(id));
+        return "redirect:/recipes";
     }
 	
 	@PostMapping("/admin/addNewUser")

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
 import it.uniroma3.siw.model.Cook;
+import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.repository.CookRepository;
 import it.uniroma3.siw.repository.RecipeRepository;
 
@@ -24,10 +25,8 @@ public class CookService {
 	public boolean isRecipeLikedByLoggedCook(Long id,Authentication auth) {
 		
 		Cook cook = credentialsService.getCredentials(auth.getName()).getUser().getCook();
-		System.out.println(cook.getFavoritesRecipes());
-		System.out.println(recipeRepository.findById(id).get());
 		return cook.getFavoritesRecipes().contains(recipeRepository.findById(id).get());
-	}
+		}
 	
 	public void saveCook(Cook cook) {
 		cookRepository.save(cook);

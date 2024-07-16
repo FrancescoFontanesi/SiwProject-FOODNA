@@ -103,7 +103,7 @@ public class CredentialsService  {
                  e.printStackTrace();
              }
          }
-    	 
+    	 u.setCook(new Cook());
     	 c.setUser(u);
          this.saveCredentials(c);	
     }

@@ -23,21 +23,34 @@ public class Cook {
 	private Long id;
 	
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+	@OneToOne
     private User user;
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cook", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private List<Recipe> personalRecipes;
+
+    @OneToMany(fetch = FetchType.LAZY) 
+    private List<Recipe> favoritesRecipes;
+
+    @OneToMany(fetch = FetchType.LAZY) 
+    private List<User> likedCooks;
 	
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cook", cascade = CascadeType.ALL, orphanRemoval = true) 
-	private List<Recipe> personalRecipes;
-
-	
-	//uso id lista Long non ottimizzerebbe la ricerca
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Recipe> favoritesRecipes;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<User> likedCooks;
+	/*
+	 * @OneToMany(fetch = FetchType.LAZY, mappedBy = "cook", cascade =
+	 * {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true) private
+	 * List<Recipe> personalRecipes;
+	 * 
+	 * 
+	 * //uso id lista Long non ottimizzerebbe la ricerca
+	 * 
+	 * @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,
+	 * CascadeType.MERGE}, orphanRemoval = true) private List<Recipe>
+	 * favoritesRecipes;
+	 * 
+	 * @OneToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,
+	 * CascadeType.MERGE}, orphanRemoval = true) private List<User> likedCooks;
+	 */
 	
 	private Integer numberOfFollows;
 	

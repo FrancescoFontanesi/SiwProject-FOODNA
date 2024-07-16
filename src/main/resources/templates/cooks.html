@@ -72,7 +72,7 @@
 				Non ci sono cuochi nel nostro sistema
               </div>
         </div>
-        <div th:if="${cooks.isEmpty()}" class="col-12">
+        <div th:if="${cooks !=null and cooks.isEmpty()}" class="col-12">
             <div class="alert text-center alert-info" role="alert">
                 Non ci sono cuochi che soddisfano la ricerca
             </div>
@@ -97,18 +97,6 @@
     </div>
 </div>
 
-
-
-
 		<div class="my-5"></div>
 		
-		
-		
-									
-									
-							
-
-
-
-
 </body>

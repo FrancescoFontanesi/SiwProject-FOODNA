@@ -17,11 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.siw.controller.validator.RecipeValidator;
-import it.uniroma3.siw.model.Ingredient;
+import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.Recipe;
 import it.uniroma3.siw.model.User;
-import it.uniroma3.siw.repository.UserRepository;
 import it.uniroma3.siw.service.CookService;
+import it.uniroma3.siw.service.CredentialsService;
 import it.uniroma3.siw.service.IngredientService;
 import it.uniroma3.siw.service.RecipeService;
 import it.uniroma3.siw.service.UserService;
@@ -41,6 +41,9 @@ public class RecipeController {
 	@Autowired
 	private RecipeValidator recipeValidator;
 	
+	@Autowired 
+	private CredentialsService credentialsService;
+	
 
 	@Autowired
 	private CookService cookService;
@@ -54,7 +57,6 @@ public class RecipeController {
 		model.addAttribute("c1", recipeService.findAllC("Primi"));
 		model.addAttribute("c2", recipeService.findAllC("Secondi"));
 		model.addAttribute("c3", recipeService.findAllC("Dessert"));
-		userService.addLoggedUser(auth, model);
 		return "recipes";
 	}
 	@GetMapping("/recipes/{category}")
@@ -67,7 +69,6 @@ public class RecipeController {
 	    }
 	    model.addAttribute("recipes", recipes);
 
-	    userService.addLoggedUser(auth, model);
 	    return category.toLowerCase(); 
 	}
 
@@ -76,12 +77,20 @@ public class RecipeController {
 	public String getRecipe(@PathVariable("id") Long id, Model model, Authentication auth ) {
 		model.addAttribute("recipe", recipeService.getRecipe(id));
         userService.addLoggedUser(auth, model);
-        if(auth!=null) {
-			model.addAttribute("liked",cookService.isRecipeLikedByLoggedCook(id, auth));
-		}
-        
-        System.out.println(cookService.isRecipeLikedByLoggedCook(id, auth));
-        
+        if (auth != null) {
+            model.addAttribute("editRecipe",recipeService.CreateRecipeAndAddEmptyIngredients());
+            Credentials credentials = credentialsService.getCredentials(auth.getName());
+            if (!Credentials.ADMIN_ROLE.equals(credentials.getRole())) {
+                model.addAttribute("liked", cookService.isRecipeLikedByLoggedCook(id, auth));
+                
+                Recipe recipe = recipeService.getRecipe(id);
+                if (recipe.getCook() != null) {
+                    model.addAttribute("ownerId", recipe.getCook().getId());
+                    if(recipe.getCook().getId() == credentials.getUser().getCook().getId());
+                }
+            }
+        }
+       
 		return "recipe";
 	}
 	
