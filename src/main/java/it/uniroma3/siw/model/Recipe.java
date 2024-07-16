@@ -111,7 +111,7 @@ public class Recipe {
 		this.category = category;
 	}
 
-
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(description);
@@ -126,7 +126,7 @@ public class Recipe {
 		if (getClass() != obj.getClass())
 			return false;
 		Recipe other = (Recipe) obj;
-		return Objects.equals(description, other.description);
+		return Objects.equals(id, other.id);
 	}
 
 	@Override

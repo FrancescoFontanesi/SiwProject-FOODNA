@@ -48,6 +48,7 @@ public class CookController {
 		if (auth != null && !credentialsService.isAdminLogged(auth)) {
 		m.addAttribute("doesFollow", userService.isUserFollowedByLoggedUser(id, auth));
 		}
+		System.out.println(userService.findById(id).getCook().toString());
 		return "cook";
 	}
 	
@@ -58,7 +59,9 @@ public class CookController {
 		User followed = userService.findById(id);
 		follower.getCook().getLikedCooks().add(followed);
 		followed.getCook().setNumberOfFollows(followed.getCook().getNumberOfFollows() + 1);
-		return "/cook/" + id;
+		userService.saveUser(follower);
+		userService.saveUser(followed);
+	    return "redirect:/cook/" + id;
 	}
 	
 	

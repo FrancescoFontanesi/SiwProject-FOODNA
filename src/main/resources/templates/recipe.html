@@ -55,34 +55,44 @@
                                 <div class="pt-3">
 									<div class="text flex-grow-1 centered">
 										<div class="d-flex justify-content-center align-items-center gap-2">
-											<div th:if="${#authentication.authorities[0].authority != 'ADMIN'} and ${recipe.cook} != null and ${loggedUser} != null	">
-												<div th:if="${loggedUser.id} != ${recipe.cook.user.id}">
-													<a th:href="@{/addToFavorites/{recipeId}(recipeId=${recipe.id})}">
+											<div th:if="${!liked}">
+											<div th:if="${#authentication.authorities[0].authority != 'ADMIN' and loggedUser != null }">
+												<div th:if="${recipe.cook==null or !liked and loggedUser.id != recipe.cook.user.id}">
+													<form th:action="@{/addToFavorites/{recipeId}(recipeId=${recipe.id})}" method="post">
+														<button type="submit" class="btn btn-link p-0 m-0 align-baseline">
+															<i class="bi bi-heart heart-icon"></i>
+														</button>
+													</form>
+												</div>
+											</div>
+											</div>
+											<div sec:authorize="isAnonymous()">
+													<a th:href="@{/login}">
 														<i class="bi bi-heart heart-icon"></i>
 													</a>
 												</div>
-											</div>
 											
-											<div th:if="${#authentication.authorities[0].authority != 'ADMIN'} and ${recipe.cook} == null">
-												<a th:href="@{/addToFavorites/{recipeId}(recipeId=${recipe.id})}">
-													<i class="bi bi-heart "></i>
-												</a>
-											</div>
+											
 											<h2 th:text="${recipe.name}"></h2>
 											
-											<div
-												th:if="${#authentication.authorities[0].authority != 'ADMIN'} and ${recipe.cook} != null and ${loggedUser} != null	">
-												<div th:if="${loggedUser.id} != ${recipe.cook.user.id}">
-													<a th:href="@{/addToFavorites/{recipeId}(recipeId=${recipe.id})}">
+											<div th:if="${!liked}">
+																						
+												<div th:if="${#authentication.authorities[0].authority != 'ADMIN' and loggedUser != null }">
+													<div th:if="${recipe.cook==null or !liked and loggedUser.id != recipe.cook.user.id}">
+														<form th:action="@{/addToFavorites/{recipeId}(recipeId=${recipe.id})}" method="post">
+																<button type="submit" class="btn btn-link p-0 m-0 align-baseline">
+																		<i class="bi bi-heart heart-icon"></i>
+																</button>
+														</form>
+													</div>
+												</div>
+										     </div>
+											
+											<div sec:authorize="isAnonymous()">
+													<a th:href="@{/login}">
 														<i class="bi bi-heart heart-icon"></i>
 													</a>
 												</div>
-											</div>
-											
-											<div th:if="${#authentication.authorities[0].authority != 'ADMIN'} and ${recipe.cook} == null">
-												<a th:href="@{/addToFavorites/{recipeId}(recipeId=${recipe.id})}">
-													<i class="bi bi-heart heart-icon"></i>
-												</a>
 											</div>
 										</div>
 									</div>
@@ -92,7 +102,7 @@
                                         <h5>Offerta da:</h5>
                                         <h4 th:if="${recipe.cook} == null" class="mb-1">Le nostre ricette </h4>
                                         <h3 th:if="${recipe.cook} != null" class="mb-1">
-                                            <a class="nav-link navbar-elements fs-5" th:text="${recipe.cook.user.name} + ' ' +  ${recipe.cook.user.name}" th:href="@{/cook/{id}(id=${recipe.cook.user.id})}"></a>
+                                            <a class="nav-link navbar-elements fs-5" th:text="${recipe.cook.user.name} + ' ' +  ${recipe.cook.user.surname}" th:href="@{/cook/{id}(id=${recipe.cook.user.id})}"></a>
                                         </h3>
                                     </div>
                                     <div th:if="${#authentication.authorities[0].authority == 'ADMIN'}">

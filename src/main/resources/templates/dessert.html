@@ -72,14 +72,12 @@
 	
 				</div>
 			</div>
-					<div th:if="${recipes != null}">
 					
-						<div th:if="${recipes==null}" class="col-12">
+						<div th:if="${recipes != null and recipes==null}" class="col-12">
 							<div class="alert alert-info" role="alert">
 								Non ci sono ricette relative a questa Portata.
 					
 							</div>
-						</div>
 					</div>
 			<div th:each="recipe : ${recipes}" th:if="${!recipes.isEmpty()}" class="col">
 				<div class="card h-100 card-hover">

@@ -33,7 +33,7 @@ public class Cook {
 
 	
 	//uso id lista Long non ottimizzerebbe la ricerca
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cook", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Recipe> favoritesRecipes;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

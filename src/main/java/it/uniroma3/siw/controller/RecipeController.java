@@ -77,12 +77,11 @@ public class RecipeController {
 		model.addAttribute("recipe", recipeService.getRecipe(id));
         userService.addLoggedUser(auth, model);
         if(auth!=null) {
-			cookService.isRecipeLikedByLoggedCook(id, auth);
-			model.addAttribute("liked", true);
+			model.addAttribute("liked",cookService.isRecipeLikedByLoggedCook(id, auth));
 		}
-		
-		model.addAttribute("liked", false);
-		
+        
+        System.out.println(cookService.isRecipeLikedByLoggedCook(id, auth));
+        
 		return "recipe";
 	}
 	
@@ -115,14 +114,17 @@ public class RecipeController {
 	}
     
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/addToFavourites/{id}")
-    public void addToFavourties(@PathVariable("id") Long id, Authentication auth) {
+    @PostMapping("/addToFavorites/{id}")
+    public String addToFavorites(@PathVariable("id") Long id, Authentication auth) {
     	
     	User user = userService.getLoggedUser(auth);
     	Recipe likedRecipe = recipeService.getRecipe(id);
     	user.getCook().getFavoritesRecipes().add(likedRecipe);
+    	
     	userService.saveUser(user);
     	
+    	
+    	return "redirect:/myProfile";
     }	
 	
 }

@@ -64,30 +64,27 @@
 	</div>
 
 
-	<div class="container-xl mx-auto my-2 blank">
-    <div class="row mx-5 my-4 row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 justify-content-center">
+	<div class="container-lg mx-auto my-2 blank">
+    <div class="row  mx-5 my-4 row-cols-1 row-cols-md-2 row-cols-lg-4 g-4  justify-content-center">
 		  <div th:if="${recipes == null}" class="col-12">
 				<div class="alert alert-info" role="alert">
 					Non ci sono ricette relative a questa Portata.
 			
 				</div>
         </div>
-         <div th:if="${recipes != null}" >
-         <div th:if="${recipes.isEmpty()}" class="col-12">
+		<div th:if="${recipes != null and recipes.isEmpty()}" class="col-12">
 			<div class="alert alert-info" role="alert">
 				Non ci sono ricette relative a questa Portata che soddisfano la ricerca.
-			
+		
 			</div>
-			</div>
-         </div>
-        <div th:each="recipe : ${recipes}" th:if="${!recipes.isEmpty()}" class="col">
+		</div>
+       <div th:each="recipe : ${recipes}" class="col">
             <div class="card h-100 card-hover">
-                <a th:href="@{/recipe/{id}(id=${recipe.id})}">
+                <a th:href="@{/recipe/{	id}(id=${recipe.id})}">
                     <img th:src="@{${recipe.mainImagePath}}" class="card-img-top" alt="Recipe Image">
                 </a>
                 <div class="card-body d-flex flex-column justify-content-center align-items-center">
                     <div class="d-flex justify-content-between align-items-center mb-3 w-100">
-                        
                         <h4 class="card-title text-center mb-0 mx-3 flex-grow-1" th:text="${recipe.name}">Card title</h4>
                        
                     </div>
