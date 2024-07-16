@@ -9,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +22,7 @@ import it.uniroma3.siw.model.Credentials;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class AuthConfiguration {
 
     @Autowired
@@ -57,8 +59,8 @@ public class AuthConfiguration {
         .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                     .requestMatchers("/**", "/index", "/register", "/css/**", "/images/**", "favicon.ico").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
-                    .requestMatchers("myProfile").authenticated()
+                    .requestMatchers(HttpMethod.POST, "/register", "/login").anonymous()
+                    .requestMatchers(HttpMethod.GET,"/addRecipe/").authenticated()
                     .requestMatchers("/admin/**").hasAuthority(Credentials.ADMIN_ROLE)
                     .anyRequest().authenticated()
             )

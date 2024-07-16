@@ -62,7 +62,7 @@
 								  </div>
 								  <div th:if="${param.error != null}" class="alert my-0 py-1 alert-danger text-center" id="error-message"
 										style="display:none;">
-										<p class="mb-0">L'email inserita non puo essere usata poiche' appartiene gia' ad un nostro utente</p>
+										<p class="mb-0 fs-5">L'email inserita non puo essere usata poiche' appartiene gia' ad un nostro utente</p>
 									</div>
 									<button class="mr-2 btn btn-link btn-custom1 pb-1" data-bs-toggle="modal" data-bs-target="#userModal"  >
 									  <i class="bi bi-pen"></i>
@@ -80,7 +80,7 @@
 										        <form th:action="@{/updateUser/{id}(id=${user.id})}" method="post" enctype="multipart/form-data">
 										          <div class="my-2">
 										            <div class="form-outline mb-2">
-										              <input type="email" class="form-control" id="email" name="email" placeholder="La tua email"  >
+										              <input type="email" class="form-control" id="email" name="email" placeholder="La tua email" >
 										            </div>
 										
 										            <div class="form-outline mb-2">
@@ -90,12 +90,12 @@
 										            <div class="row">
 										              <div class="col-md-6">
 										                <div class="form-outline mb-2">
-										                  <input type="text" class="form-control" id="name" name="name" placeholder="Il tuo nome" >
+										                  <input type="text" class="form-control" id="name" name="name" placeholder="Il tuo nome" th:value="${user.name}" >
 										                </div>
 										              </div>
 										              <div class="col-md-6">
 										                <div class="form-outline mb-2">
-										                  <input type="text" class="form-control" id="surname" name="surname" placeholder="Il tuo cognome" >
+										                  <input type="text" class="form-control" id="surname" name="surname" placeholder="Il tuo cognome" th:value="${user.surname}" >
 										                </div>
 										              </div>
 										            </div>
@@ -134,15 +134,65 @@
 		                        <div class="tab-container my-4 mainText2">
 		                            <ul class="nav nav-tabs nav-fill" id="userTab" role="tablist">
 		                                <li class="nav-item fixed-size-tabs-admin " role="presentation">
-		                                    <button class="nav-link active " id="personal-recipes-tab" data-bs-toggle="tab" data-bs-target="#personal-recipes" type="button" role="tab" aria-controls="personal-recipes" aria-selected="true">Controllo Utenti</button>
+		                                    <button class="nav-link active " id="users-controll-tab" data-bs-toggle="tab" data-bs-target="#users-controll" type="button" role="tab" aria-controls="users-controll" aria-selected="true">Controllo Utenti</button>
 		                                </li>
 		                                <li class="nav-item fixed-size-tabs-admin " role="presentation">
-		                                    <button class="nav-link" id="favorite-recipes-tab" data-bs-toggle="tab" data-bs-target="#favorite-recipes" type="button" role="tab" aria-controls="favorite-recipes" aria-selected="false">Controllo Ricette</button>
+		                                    <button class="nav-link" id="recipes-controll-tab" data-bs-toggle="tab" data-bs-target="#recipes-controll" type="button" role="tab" aria-controls="recipes-controll" aria-selected="false">Controllo Ricette</button>
 		                                </li>
 		       
 		                            </ul>
-		                           
 		                        </div>
+		                        
+								<div class="tab-content">
+									<div class="tab-pane fade show active" id="users-controll" role="tabpanel" aria-labelledby="users-controll-tab">
+										<div class="button-section my-3">
+											<div class="row justify-content-center align-items-center">
+												<div class="col-md-10 col-lg-8">
+													<div class="d-flex flex-column align-items-center">
+														<a th:href="@{/admin/wipeCooks}" class="nav-link navbar-elements">Cancella tutti gli utenti</a>
+														<div th:if="${cooksWipeSuccess != null}" class="alert my-0 py-1 alert-success text-center">
+															<p class="mb-0">Database svuotato con successo!</p>
+														</div>
+														<a th:href="@{/cooks}" class="nav-link navbar-elements">Modifica o cancella utenti</a>
+														<a  class="nav-link navbar-elements" data-bs-toggle="modal" data-bs-target="#addNewUserModal">Aggiungi utenti</a>
+														<div th:if="${userError != null}" class="alert my-0 py-1 alert-danger text-center">
+															<p class="mb-0">L'email inserita non puo' essere usata poich' appartiene gia' ad un nostro
+																utente</p>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane fade" id="recipes-controll" role="tabpanel" aria-labelledby="recipes-controll-tab">
+										<div class="button-section my-3">
+											<div class="row justify-content-center align-items-center">
+												<div class="col-md-10 col-lg-8">
+													<div class="d-flex flex-column align-items-center">
+														
+														<form th:action="@{/admin/wipeRecipes}" method="post" style="display:inline;">
+															<button type="submit" class="nav-link navbar-elements"
+																onclick="return confirm('Are you sure you want to delete all recipes?');">
+																Cancella tutte le ricette
+															</button>
+														</form>
+														
+														<div th:if="${recipesWipeSucces != null}" class="alert my-0 py-1 alert-success text-center">
+															<p class="mb-0">Database svuotato con successo!</p>
+														</div>
+														<a th:href="@{/recipes}" class="nav-link navbar-elements">Modifica o canella ricette</a>
+													    <a class="nav-link navbar-elements" data-bs-toggle="modal" data-bs-target="#addRecipeModal">Aggiungi una ricetta</a>
+													    <div th:if="${recipeError != null}" class="alert my-0 py-1 alert-danger text-center">
+															<p class="mb-0">L'email inserita non puo' essere usata poich' appartiene gia' ad un nostro
+																utente</p>
+														</div>
+														
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
 		
 		                    </div>
 		                </div>
@@ -151,13 +201,154 @@
 		    </div>
 		</section>
 
-		    <!-- Bootstrap JS and dependencies -->
-		    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-	
-		                        
-		                        
-		                      
+		<div class="modal fade" id="addNewUserModal" tabindex="-1" aria-labelledby="addNewUserModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="addnewUserModalLabel">Crea un nuovo utente</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form th:action="@{/admin/addNewUser}" method="post" enctype="multipart/form-data">
+							<div class="my-2">
+								<div class="form-outline mb-2">
+									<input type="email" th:field="${credentials.email}" class="form-control" id="email"
+										name="email" placeholder="Email" required />
+								</div>
+								<div class="form-outline mb-2">
+									<input type="password" th:field="${credentials.password}" class="form-control" id="password"
+										name="password" placeholder="Password" required />
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-outline mb-2">
+											<input type="text" th:field="${newUser.name}" class="form-control" id="name"
+												name="name" placeholder="Nome" required />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-outline mb-2">
+											<input type="text" th:field="${newUser.surname}" class="form-control" id="surname"
+												name="surname" placeholder="Cognome" required />
+										</div>
+									</div>
+								</div>
+								<div class="form-outline mb-2">
+									<textarea th:field="${newUser.bio}" class="form-control" id="bio" name="bio"
+										placeholder="Breve bio" rows="2"></textarea>
+								</div>
+								<div class="form-outline mb-2">
+									<input type="text" th:field="${newUser.birthDate}" class="form-control" id="birthDate"
+										name="birthDate" placeholder="Data di nascita (dd/MM/yyyy)" />
+								</div>
+								<div class="form-outline mb-2">
+									<input type="file" class="form-control" id="file" name="file">
+								</div>
+								<div class="form-outline mb-2">
+									<label for="role" class="form-label">Ruolo</label>
+									<select th:field="${credentials.role}" class="form-select" id="role" name="role">
+										<option value="COOK">Cook</option>
+										<option value="ADMIN">Admin</option>
+									</select>
+								</div>
+								
+								<div class="text-center pt-1 pb-1">
+									<button class="btn btn-primary" type="submit">Registra utente</button>
+								</div>
+								
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 		
+		<div class="modal fade" id="addRecipeModal" tabindex="-1" aria-labelledby="addRecipeModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="addRecipeModalLabel">Crea una nuova ricetta</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form th:action="@{/admin/addRecipe}" method="post" th:object="${recipe}" enctype="multipart/form-data">
+							<!-- Recipe Name and Category -->
+							<div class="pt-2 row align-items-center justify-content-center">
+								<div class="col-sm-4">
+									<div class="form-outline mb-2">
+										<input type="text" th:field="*{name}" class="form-control" id="recipeName"
+											name="recipeName" required placeholder="Nome" />
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<select class="form-control mb-2" th:field="*{category}" id="recipeCategory"
+										name="recipeCategory" required>
+										<option value="Primi">Primi</option>
+										<option value="Secondi">Secondi</option>
+										<option value="Dessert">Dessert</option>
+									</select>
+								</div>
+							</div>
+		
+							<!-- Recipe Description -->
+							<div class="pt-2 row align-items-center justify-content-center">
+								<div class="col-sm-8">
+									<div class="form-outline mb-2">
+										<textarea class="form-control" th:field="*{description}" id="recipeDescription"
+											name="recipeDescription" rows="3"></textarea>
+									</div>
+								</div>
+							</div>
+		
+							<!-- File Upload -->
+							<div class="pt-2 row align-items-center justify-content-center">
+								<div class="col-sm-8">
+									<div class="form-outline mb-2">
+										<input type="file" class="form-control" id="file" name="file">
+									</div>
+								</div>
+							</div>
+		
+							<!-- Ingredients -->
+							<div class="row align-items-center justify-content-center">
+								<div id="ingredientsContainer">
+									<div class="row align-items-center justify-content-center mb-2"
+										th:each="ingredient, iterStat : *{ingredients}">
+										<div class="col-sm-6">
+											<div class="form-outline mb-2">
+												<input class="form-control"
+													th:field="*{ingredients[__${iterStat.index}__].name}"
+													placeholder="Nome dell'ingrediente">
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<div class="form-outline mb-2">
+												<input class="form-control"
+													th:field="*{ingredients[__${iterStat.index}__].quantity}"
+													placeholder="Quantità">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+		
+							<!-- Error Message -->
+							<div th:if="${param.error != null}" class="alert my-0 py-1 alert-danger text-center">
+								<p class="mb-0">Hai già creato una ricetta con questo nome!</p>
+							</div>
+		
+							<!-- Submit Button -->
+							<div class="form-group row">
+								<div class="col-sm-12 text-center">
+									<button type="submit" class="btn btn-primary">Crea la ricetta</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		                        
 		
 	</body>

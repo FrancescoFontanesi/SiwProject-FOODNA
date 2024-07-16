@@ -77,94 +77,20 @@
                 Non ci sono cuochi che soddisfano la ricerca
             </div>
         </div>
-        <div th:each="cook : ${cooks}" class="col">
-            <div class="card h-100 card-hover">
-		 	   <a th:href="@{/cook/{cookId}(cookId=${cook.id})}">	 
-                <img th:src="@{${cook.profilePic}}" class="profile-pic-container-card mt-1 pt-4" alt="User Profile Picture">
-                </a>
-                <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                    <div class="d-flex justify-content-between align-items-center mb-3 ">
-                        <div class="d-flex justify-content-center align-items-center gap-2">
-							<div sec:authorize="isAuthenticated()" th:if="${#authentication.authorities[0].authority != 'ADMIN'}">
-                                <a th:href="@{/addTo/{cookId}(cookId=${cook.id})}">
-                                    <i class="bi bi-plus-circle"></i>
-                                </a>
-                            </div>
-                            <div sec:authorize="isAnonymous()">
-                                <a th:href="@{/register}">
-                                    <i class="bi bi-plus-circle"></i>
-                                </a>
-                            </div>
-                           <div th:if="${#authentication.authorities[0].authority == 'ADMIN'}" class="px-2">
-                            <button class="mr-2 btn btn-link btn-custom pb-1" data-bs-toggle="modal" data-bs-target="#userModal">
-                                <i class="bi bi-pen"></i>
-                            </button>
-                           </div>
-                            <div sec:authorize="isAuthenticated()" th:if="${#authentication.authorities[0].authority == 'ADMIN'}" class="modal" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="userModalLabel">Update User Information</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form th:action="@{/updateUser/{id}(id=${cook.id})}" method="post" enctype="multipart/form-data">
-                                                <div class="my-2">
-                                                    <div class="form-outline mb-2">
-                                                        <input type="email" class="form-control" id="email" name="email" placeholder="La tua email">
-                                                    </div>
-                                                    <div class="form-outline mb-2">
-                                                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-outline mb-2">
-                                                                <input type="text" class="form-control" id="name" name="name" placeholder="Il tuo nome">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-outline mb-2">
-                                                                <input type="text" class="form-control" id="surname" name="surname" placeholder="Il tuo cognome">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-outline mb-2">
-                                                        <textarea class="form-control" id="bio" name="bio" placeholder="Breve bio" rows="2"></textarea>
-                                                    </div>
-                                                    <div class="form-outline mb-2">
-                                                        <input type="text" class="form-control" id="birthDate" name="birthDate" placeholder="Data di nascita (dd/MM/yyyy)">
-                                                    </div>
-                                                    <div class="form-outline mb-2">
-                                                        <input type="file" class="form-control" id="file" name="file">
-                                                    </div>
-                                                    <div class="text-center pt-1 pb-1">
-                                                        <button class="btn btn-primary" type="submit">Salva le modifiche</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <h4 class="card-title mainText mb-1 text-center flex-grow-1" th:text="${cook.name} + ' ' + ${cook.surname} " style="user-select: text;">Nome Cuoco</h4>
+    
+        
+        <div th:each="user : ${cooks}" class="col">
+			<div class="card h-100 card-hover">
+				<a th:href="@{/cook/{userId}(userId=${user.id})}">
+					<img th:src="@{${user.profilePic}}" class="profile-pic-container-card mt-1 pt-4" alt="User Profile Picture">
+				</a>
+				<div class="card-body d-flex flex-column justify-content-center align-items-center">
+					<div class="d-flex justify-content-center align-items-center  mb-3 w-100 ">
                             
-                        <div class="d-flex justify-content-center align-items-center gap-2">
-                            <div sec:authorize="isAuthenticated()" th:if="${#authentication.authorities[0].authority != 'ADMIN'}">
-                                <a th:href="@{/addToFavorites/{cookId}(cookId=${cook.id})}">
-                                    <i class="bi bi-plus-circle"></i>
-                                </a>
-                            </div>
-                            <div th:if="${#authentication.authorities[0].authority == 'ADMIN'}">
-                                <a th:href="@{/admin/delete/{cookId}(cookId=${cook.id})}">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </div>
-                            <div sec:authorize="isAnonymous()">
-                                <a th:href="@{/register}">
-                                    <i class="bi bi-plus-circle"></i>
-                                </a>
-                            </div>
-                        </div>
+                            <h4 class="card-title mainText mb-1 ms-1 me-2 text-center flex-grow-2" th:text="${user.name} + ' ' + ${user.surname} " style="user-select: text;">Nome Cuoco</h4>
+                            
+                           
+					  </div>
                     </div>
                 </div>
             </div>

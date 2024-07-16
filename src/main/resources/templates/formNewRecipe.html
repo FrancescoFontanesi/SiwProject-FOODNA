@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Welcome!</title>
+	<link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+	<link rel="stylesheet" th:href="@{/css/cssBootstrap/bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/css/stile.css}">
+	<link rel="stylesheet" th:href="@{/css/icons/bootstrap-icons-1.11.3/font/bootstrap-icons.min.css}">
+	<script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<script defer src="js/bootstrap.bundle.min.js"></script>
+
+
+</head>
+
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-white">
+		<div class="container-fluid d-flex justify-content-between align-items-center blank">
+
+			<div class="d-flex " style="margin-right: 10px">
+				<a href="#" class="nav-link me-1"><i class="bi bi-facebook"></i></a>
+				<a href="#" class="nav-link me-1"><i class="bi bi-twitter"></i></a>
+				<a href="#" class="nav-link me-1"><i class="bi bi-instagram"></i></a>
+				<a href="#" class="nav-link me-1"><i class="bi bi-youtube"></i></a>
+			</div>
+
+			<a class="nav-brand navbar-elements" width="160" height="80" th:href="@{/recipes}">Ricette</a>
+			<div class="d-flex align-items-center">
+				<ul class="navbar-nav d-flex">
+					<li class="nav-item">
+						<a class="navbar-brand mr-0" th:href="@{/}" style="margin-right: 0px;">
+						<img th:src="@{/images/logo.png}" width="160" height="80" alt="Logo">
+						</a>
+					</li>
+				</ul>
+			</div>
+			<a class="nav-brand navbar-elements" th:href="@{/cooks}">Cuochi</a>
+			<div sec:authorize="isAuthenticated()">
+				<a class="nav-link navbar-elements" th:href="@{/myProfile}">Profilo</a>
+			</div>
+		</div>
+	</nav>
+	
+	
+	
+	<section class="h-100 gradient-form blank">
+    <div class="container-lg py-2 h-90">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-10 col-lg-8">
+                <div class="card rounded-3">
+                    <div class="row g-0 shadow-lg">
+                        <!-- Immagine superiore -->
+                        <div class="col-lg-12 d-flex align-items-center justify-content-center">
+                            <img th:src="@{/images/new1.jpg}" class="img-fluid w-100 card-img-top" style="object-fit: cover;" alt="Top Image">
+                        </div>
+
+                        <div class="col-lg-12 d-flex align-items-center">
+                            <div class="card-body p-2 mx-md-3">
+                                <div class="text-center">
+                                    <img th:src="@{/images/logo.png}" style="width: 150px;" alt="logo">
+                                    <h3 class="mt-1 mb-2 pb-1">Crea una Nuova Ricetta!</h3>
+                                </div>
+                                <div class="text-center">
+								<form th:action="@{/addRecipe}" method="post" th:object="${recipe}"  enctype="multipart/form-data">
+									<!-- Recipe Name and Category -->
+									<div class="pt-2 row align-items-center justify-content-center">
+										<div class="col-sm-4">
+											<div class="form-outline mb-2">
+												<input type="text" th:field="*{name}" class="form-control" id="recipeName" name="recipeName"
+													required placeholder="Nome" />
+											 </div>
+											</div>
+										<div class="col-sm-4">
+											<select class="form-control mb-2" th:field="*{category}"	 id="recipeCategory" name="recipeCategory" required />
+												<option value="Primi">Primi</option>
+												<option value="Secondi">Secondi</option>
+												<option value="Dessert">Dessert</option>
+											</select>
+										</div>
+									</div>
+								
+									<!-- Recipe Description -->
+									<div class="pt-2 row align-items-center justify-content-center">
+										<div class="col-sm-8">
+											<div class="form-outline mb-2">
+												<textarea class="form-control" th:field="*{description}" id="recipeDescription"  name="recipeDescription" rows="3"
+													></textarea>
+											</div>
+										</div>
+									</div>
+									
+									<div class="pt-2 row align-items-center justify-content-center">
+										<div class="col-sm-8">
+											<div class="form-outline mb-2">
+												<input type="file" class="form-control" id="file" name="file" >
+											</div>
+										</div>
+									</div>
+									
+								
+										<!-- Ingredients -->
+							<div class="row align-items-center justify-content-center">
+								<div id="ingredientsContainer">
+									<div class="row align-items-center justify-content-center mb-2" th:each="ingredient, iterStat : *{ingredients}">
+										<div class="col-sm-6">
+											<div class="form-outline mb-2">
+												<input class="form-control" th:field="*{ingredients[__${iterStat.index}__].name}"
+												     placeholder="Nome dell'ingrediente" >
+											</div>
+										</div>
+											<div class="col-sm-2">
+												<div class="form-outline mb-2">
+													<input  class="form-control" th:field="*{ingredients[__${iterStat.index}__].quantity}" placeholder="Quantita'" >
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								
+					
+								
+									<!-- Submit Button -->
+									<div class="form-group row">
+										<div class="col-sm-12 text-center">
+											<div th:if="${param.error != null}" class="alert my-0 py-1 alert-danger text-center">
+	                                            <p class="mb-0">Hai gia creato una ricetta con questo nome!</p>
+	                                        </div>
+											<button type="submit" class="nav-link navbar-elements">Crea la ricetta	</button>
+										</div>
+									</div>
+								</form>
+
+                                </div>
+                            </div>
+                        </div>
+
+                       <div class="col-lg-12 d-flex align-items-center justify-content-center">
+                            <img th:src="@{/images/new2.jpg}" class="img-fluid w-100 card-img-top" style="object-fit: cover;" alt="Top Image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+	
+</body>

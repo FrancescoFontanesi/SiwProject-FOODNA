@@ -12,7 +12,6 @@
 		<script defer th:src="@{/js/bootstrap.bundle.min.js}"></script>
 		<script defer src="js/bootstrap.bundle.min.js"></script>
 	
-	
 	</head>
 	
 	<div class="blank">
@@ -40,12 +39,9 @@
 				<a class="nav-brand navbar-elements" th:href="@{/cooks}">Cuochi</a>
 				<div sec:authorize="isAnonymous()" class="ml-auto">
 				<a class="nav-link navbar-elements" href="/login">Login</a>
-			</div>
-               <div sec:authorize="isAuthenticated()" th:if="${#authentication.authorities[0].authority == 'ADMIN'}">
+			    </div>
+                <div sec:authorize="isAuthenticated()" >
 				<a class="nav-link navbar-elements" th:href="@{/myProfile}">Profilo</a>
-			</div>
-			<div sec:authorize="isAuthenticated()" th:if="${#authentication.authorities[0].authority != 'ADMIN'}">
-				<a class="nav-link navbar-elements-blank" th:href="@{/myProfile}">Profilo</a>
 			</div>
 			</div>
 		</nav>
@@ -62,9 +58,80 @@
 										<img th:src="${user.profilePic}" class="profile-pic" alt="Profile Picture">
 									</div>
 									<h2 th:text="${user.name} + ' ' + ${user.surname}">Name Surname</h2>
-									<p th:text="'&quot;' + ${user.bio} + '&quot;'" class="mb-1">Bio goes here...</p>
+									<p class="mb-1"  th:text=" 'Followers: ' + ${user.cook.numberOfFollows}"></p>
+						            <a sec:authorize="isAnonymous()" role="button" th:href="@{/login}" class="button-28">Segui</a>
+                                    <div sec:authorize="isAuthenticated( )" th:if="${#authentication.authorities[0].authority == 'COOK'}">
+										<button th:if="${user.id != loggedUser.id and !doesFollow}" th:href="@{/addFollow}" role="button" class="button-28">Segui</button>
+									    <button th:if="${user.id != loggedUser.id and doesFollow}" role="button" class="button-28-no">Seguito!</button>
+                                    </div>
+									<p th:text="'&quot;' + ${user.bio} + '&quot;'" class="mb-1"></p>
 									<p th:text="${user.birthDate}">Birthdate: dd/mm/yyyy</p>
-		
+									
+									<div th:if="${#authentication.authorities[0].authority == 'ADMIN'}">
+										<button class="mr-2 btn btn-link btn-custom1 pb-1" data-bs-toggle="modal" data-bs-target="#userModal">
+											<i class="bi bi-pen"></i>
+										</button>
+										
+										<form th:action="@{/admin/deleteUser/{id}(id=${user.id})}" method="post" style="display:inline;">
+											<a onclick="return confirm('Sei sicuro di voler cancellare questo account?');" class="mr-2"><i
+													class="bi bi-trash"></i></a>
+										</form>
+										
+									
+									</div>
+									
+									<div class="modal" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="userModalLabel">Update User Information</h5>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													<form th:action="@{/admin/updateUser/{id}(id=${user.id})}" method="post" enctype="multipart/form-data">
+														<div class="my-2">
+															<div class="form-outline mb-2">
+																<input type="email" class="form-control" id="email" name="email"  placeholder="Email">
+															</div>
+															<div class="form-outline mb-2">
+																<input type="password" class="form-control" id="password" name="password"
+																	placeholder="Password">
+															</div>
+															<div class="row">
+																<div class="col-md-6">
+																	<div class="form-outline mb-2">
+																		<input type="text" class="form-control" id="name" name="name" th:value="${user.name}" placeholder="Nome">
+																	</div>
+																</div>
+																<div class="col-md-6">
+																	<div class="form-outline mb-2">
+																		<input type="text" class="form-control" id="surname" th:value="${user.surname}" name="surname"
+																			placeholder="Cognome">
+																	</div>
+																</div>
+															</div>
+															<div class="form-outline mb-2">
+																<textarea class="form-control" id="bio" name="bio" placeholder="Breve bio"
+																	rows="2"></textarea>
+															</div>
+															<div class="form-outline mb-2">
+																<input type="text" class="form-control" id="birthDate" th:value="${user.birthDate}" name="birthDate"
+																	placeholder="Data di nascita (dd/MM/yyyy)">
+															</div>
+															<div class="form-outline mb-2">
+																<input type="file" class="form-control" id="file" name="file">
+															</div>
+															<div class="text-center pt-1 pb-1">
+																<button class="btn btn-primary" type="submit">Salva le modifiche</button>
+															</div>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									
 									<div class="my-4"></div>
 									<h4 class="mainText">Le ricette dello chief</h4>
 		
@@ -73,70 +140,30 @@
 										ricetta</div>
 		
 		
-									<div class="container mx-auto my-2" th:if="${!user.cook.personalRecipes.isEmpty()}">
-										<div
-											class="row mx-5 my-4 row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
-											<div th:each="recipe : ${user.cook.personalRecipes}" th:if="${!recipes.isEmpty()}"
+									<div class="container-ml mx-auto my-2" th:if="${!user.cook.personalRecipes.isEmpty()}">
+										<div class="row mx-5 my-4 row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+											<div th:each="recipe : ${user.cook.personalRecipes}" th:if="${!user.cook.personalRecipes.isEmpty()}"
 												class="col">
-												<div class="card h-100 card-hover">
-													<a th:href="@{/recipe/{id}(id=${recipe.id})}">
-														<img th:src="@{${recipe.mainImagePath}}" class="card-img-top"
-															alt="Recipe Image">
-													</a>
-													<div
-														class="card-body d-flex flex-column justify-content-center align-items-center">
-														<div
-															class="d-flex justify-content-between align-items-center mb-3 w-100">
-															<div class="d-flex justify-content-center align-items-center gap-2">
-																<div
-																	th:if="${#authentication.authorities[0].authority != 'ADMIN'}">
-																	<a
-																		th:href="@{/addToFavorites/{recipeId}(recipeId=${recipe.id})}">
-																		<i class="bi bi-heart heart-icon"></i>
-																	</a>
-																</div>
-																<div
-																	th:if="${#authentication.authorities[0].authority == 'ADMIN'}">
-																	<a
-																		th:href="@{/admin/edit/{recipeId}(recipeId=${recipe.id})}">
-																		<i class="bi bi-pen"></i>
-																	</a>
-																</div>
-															</div>
-															<h4 class="card-title text-center mb-0 mx-3 flex-grow-1"
-																th:text="${recipe.name}">Card title
-															</h4>
-															<div class="d-flex justify-content-center align-items-center gap-2">
-																<div sec:authorize="isAuthenticated()"
-																	th:if="${#authentication.authorities[0].authority != 'ADMIN'}">
-																	<a
-																		th:href="@{/addToFavorites/{recipeId}(recipeId=${recipe.id})}">
-																		<i class="bi bi-heart heart-icon"></i>
-																	</a>
-																</div>
-																<div
-																	th:if="${#authentication.authorities[0].authority == 'ADMIN'}">
-																	<a
-																		th:href="@{/admin/delete/{recipeId}(recipeId=${recipe.id})}">
-																		<i class="bi bi-trash"></i>
-																	</a>
-																</div>
-																<div sec:authorize="isAnonymous()">
-																	<a th:href="@{/register}">
-																		<i class="bi bi-heart heart-icon"></i>
-																	</a>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
+												<div th:each="recipe : ${user.cook.personalRecipes}" class="col">
+										            <div class="card h-100 card-hover">
+										                <a th:href="@{/recipe/{id}(id=${recipe.id})}">
+										                    <img th:src="@{${recipe.mainImagePath}}" class="card-img-top2" alt="Recipe Image">
+										                </a>
+										                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+										                    <div class="d-flex justify-content-between align-items-center mb-3 w-100">
+										                        <div class="d-flex justify-content-center align-items-center gap-2">
+												
+										                        </div>
+										                        <h4 class="card-title text-center mb-0 mx-3 flex-grow-1" th:text="${recipe.name}">Card title</h4>
+										                       
+										                    </div>
+										                </div>
+										            </div>
+										        </div>
 											</div>
 										</div>
 									</div>
-		
 								</div>
-		
-		
 							</div>
 						</div>
 					</div>

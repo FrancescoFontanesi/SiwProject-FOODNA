@@ -19,6 +19,11 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class Recipe {
 	
+	
+	public final static String UPLOADED_FOLDER_RECIPE = "src/main/resources/static/images/recipes/";
+    
+	private final static String DEFAULT_IMAGE = "/images/recipes/defaultImageForDish.jpeg";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -41,11 +46,11 @@ public class Recipe {
 	private List<Ingredient> ingredients;
 
 
-	@NotNull
 	private String mainImagePath;
 
 	public Recipe() {
 		this.ingredients = new ArrayList<>();
+		this.mainImagePath = DEFAULT_IMAGE;
 	}
 
 	// Getters and Setters
@@ -55,6 +60,10 @@ public class Recipe {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public void setCook(Cook cook) {
+		this.cook = cook;
 	}
 
 	public String getName() {
@@ -82,16 +91,9 @@ public class Recipe {
 	}
 
 
-
-
 	public Cook getCook() {
 		return cook;
 	}
-
-	public void getCook(Cook cook) {
-		this.cook = cook;
-	}
-
 
 	public String getMainImagePath() {
 		return mainImagePath;
@@ -130,6 +132,7 @@ public class Recipe {
 	@Override
 	public String toString() {
 		return "Recipe [id=" + id + ", name=" + name + ", description=" + description + ", category=" + category
-				+ ", cook=" + cook + ", ingredients=" + ingredients + ", mainImagePath=" + mainImagePath + "]";
+				 + ", ingredients=" + ingredients + ", mainImagePath=" + mainImagePath + "]";
 	}
+
 }

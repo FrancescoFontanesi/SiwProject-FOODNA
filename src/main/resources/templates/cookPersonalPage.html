@@ -56,20 +56,17 @@
 									<div class="profile-pic-container">
 									    <img th:src="${user.profilePic}" class="profile-pic" alt="Profile Picture">
 									</div>
-		                            <h2 th:text="${user.name} + ' ' + ${user.surname}">Name Surname</h2>
+		                            <h2 th:text="${user.name} + ' ' + ${user.surname}">Name Surname + followersCount</h2>
+		                            <p class="mb-1"  th:text=" 'Followers: ' + ${user.cook.numberOfFollows}"></p>
 		                            <p th:text="'&quot;' + ${user.bio} + '&quot;'" class="mb-1">Bio goes here...</p>
 		                            <p th:text="${user.birthDate}">Birthdate: dd/mm/yyyy</p>
-		                            <div th:if="${param.error != null}" class="alert my-0 py-1 alert-danger text-center" id="error-message"
-										style="display:none;">
-										<p class="mb-0">L'email inserita non puo essere usata poiche' appartiene gia' ad un nostro utente</p>
-									</div>
 									<button class="mr-2 btn btn-link btn-custom1 pb-1" data-bs-toggle="modal" data-bs-target="#userModal"  >
 									  <i class="bi bi-pen"></i>
 									</button>
 									
-									<div class="modal" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+									<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
 										
-										  <div class="modal-dialog">
+										  <div class="modal-dialog modal-dialog-centered">
 										    <div class="modal-content">
 										      <div class="modal-header">
 										        <h5 class="modal-title" id="userModalLabel">Update User Information</h5>
@@ -78,9 +75,11 @@
 										      <div class="modal-body">
 										        <form th:action="@{/updateUser/{id}(id=${user.id})}" method="post" enctype="multipart/form-data">
 										          <div class="my-2">
-										            <div class="form-outline mb-2">
-										              <input type="email" class="form-control" id="email" name="email" placeholder="La tua email"  >
-										            </div>
+													<div class="form-outline mb-2">
+														<input type="email" class="form-control" id="email" name="email" placeholder="La tua email" >
+													</div>
+													
+													
 										
 										            <div class="form-outline mb-2">
 										              <input type="password" class="form-control" id="password" name="password" placeholder="Password" >
@@ -89,22 +88,22 @@
 										            <div class="row">
 										              <div class="col-md-6">
 										                <div class="form-outline mb-2">
-										                  <input type="text" class="form-control" id="name" name="name" placeholder="Il tuo nome" >
+										                  <input type="text" class="form-control" id="name" name="name" placeholder="Il tuo nome"  th:value="${user.name}">
 										                </div>
 										              </div>
 										              <div class="col-md-6">
 										                <div class="form-outline mb-2">
-										                  <input type="text" class="form-control" id="surname" name="surname" placeholder="Il tuo cognome" >
+										                  <input type="text" class="form-control" id="surname" name="surname" placeholder="Il tuo cognome" th:value="${user.surname}" >
 										                </div>
 										              </div>
 										            </div>
 										
 										            <div class="form-outline mb-2">
-										              <textarea class="form-control" id="bio" name="bio" placeholder="Breve bio" rows="2"></textarea>
+										              <textarea class="form-control" id="bio" name="bio" placeholder="Breve bio" rows="2"  th:value="${user.bio}"></textarea>
 										            </div>
 										
 										            <div class="form-outline mb-2">
-										              <input type="text" class="form-control" id="birthDate" name="birthDate" placeholder="Data di nascita (dd/MM/yyyy)" />
+										              <input type="text" class="form-control" id="birthDate" name="birthDate" placeholder="Data di nascita (dd/MM/yyyy)"  th:value="${user.birthDate}" />
 										            </div>
 										
 										            <div class="form-outline mb-2">
@@ -128,6 +127,9 @@
 									
 		                            <a th:href="@{/deleteUser/{id}(id=${user.id})}" onclick="return confirm('Sei sicuro di voler cancellare il tuo account?');" class="mr-2"><i class="bi bi-trash"></i></a>
 		                            
+		                            <div th:if="${param.error != null}" class="alert my-0 py-1 alert-danger text-center">
+	                                            <p class="mb-0 fs-5">L'email inserita non puo essere utilizzata poiche gia presente nel nostro sistema</p>
+	                                        </div>
 									
 		                        </div>
 		
@@ -144,32 +146,98 @@
 		                                </li>
 		                            </ul>
 		                            <div class="tab-content pt-3" id="userTabContent">
-		                                <!-- Personal Recipes -->
 		                                <div class="tab-pane fade show active text-center" id="personal-recipes" role="tabpanel" aria-labelledby="personal-recipes-tab justify-items-center">
 											<p th:if="${user.cook.personalRecipes.isEmpty()}" class="mainText1 text-center mt-3">Non hai ancora creato nessuna ricetta</p>
-											<ul class="list-group my-3" th:if="${!user.cook.personalRecipes.isEmpty()}">
-		                                        <li class="list-group-item" th:each="recipe : ${user.cook.personalRecipes}" th:text="${recipe.name}">Recipe Name</li>
-		                                    </ul>
+											<div class="list-group my-3" th:if="${!user.cook.personalRecipes.isEmpty()}">
+		                                        <div class="container-md mx-auto ">
+													<div class="row mx-5 my-4 row-cols-1 row-cols-md-5 row-cols-lg-3 g-2 justify-content-center">
+														<div th:each="recipe : ${user.cook.personalRecipes}" th:if="${!user.cook.personalRecipes.isEmpty()}" class="col">
+															<div class="card h-100 card-hover">
+																<a th:href="@{/recipe/{id}(id=${recipe.id})}">
+																	<img th:src="${recipe.mainImagePath}" class="card-img-top2" alt="Recipe Image">
+																</a>
+																<div class="card-body d-flex flex-column justify-content-center align-items-center">
+																	<div class="d-flex justify-content-between align-items-center mb-3 w-100">
+																		<div class="d-flex justify-content-center align-items-center gap-2">
+																			
+																		</div>
+																		<h4 class="card-title text-center mb-0 mx-3 flex-grow-1" th:text="${recipe.name}">Card title
+																		</h4>
+																		
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+		                                        </div>
+											</div>
+		                                    
 		                                    <a class="nav-link  text-center navbar-elements" th:href="@{/addRecipe}">Crea</a>
 
 		                                </div>
-		                                <!-- Favorite Recipes -->
 		                                <div class="tab-pane fade text-center" id="favorite-recipes" role="tabpanel" aria-labelledby="favorite-recipes-tab">
-											<p th:if="${user.cook.favoritesRecipes.isEmpty()}" class="mainText1 text-center mt-3">Non hai aggiunto nessuna ricetta alle tue preferite</p>
-											<ul class="list-group mt-3" th:if="${!user.cook.favoritesRecipes.isEmpty()}">
-		                                        <li class="list-group-item" th:each="recipe : ${user.cook.favoritesRecipes}" th:text="${recipe.name}">Recipe Name</li>
-		                                    </ul>
-										    <a class="nav-link  text-center navbar-elements" th:href="@{/recipes}">Scoprile</a>
+											<div th:if="${user.cook.favoritesRecipes.isEmpty()}" >
+											<p class="mainText1 text-center mt-3">Non hai ancora creato nessuna ricetta</p>
+											<a class="nav-link  text-center navbar-elements" th:href="@{/recipes}">Scoprile</a>
+											</div>
+											<div class="list-group my-3" th:if="${!user.cook.personalRecipes.isEmpty()}">
+		                                        <div class="container-md mx-auto ">
+													<div class="row mx-5 my-4 row-cols-1 row-cols-md-5 row-cols-lg-3 g-2 justify-content-center">
+														<div th:each="recipe : ${user.cook.favoritesRecipes}" th:if="${!user.cook.favoritesRecipes.isEmpty()}" class="col">
+															<div class="card h-100 card-hover">
+																<a th:href="@{/recipe/{id}(id=${recipe.id})}">
+																	<img th:src="${recipe.mainImagePath}" class="card-img-top2" alt="Recipe Image">
+																</a>
+																<div class="card-body d-flex flex-column justify-content-center align-items-center">
+																	<div class="d-flex justify-content-between align-items-center mb-3 w-100">
+																		<div class="d-flex justify-content-center align-items-center gap-2">
+																			
+																		</div>
+																		<h4 class="card-title text-center mb-0 mx-3 flex-grow-1" th:text="${recipe.name}">Card title
+																		</h4>
+																		
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+		                                        </div>
+											</div>
 
 		                                </div>
 		                                <!-- Liked Cooks -->
 		                                <div class="tab-pane fade text-center" id="liked-cooks" role="tabpanel" aria-labelledby="liked-cooks-tab">
-											 <p th:if="${user.cook.likedCooks.isEmpty()}" class="text-muted text-center mt-3">Non hai seguito nessuo dei nostri cuochi</p>
-											<ul class="list-group mt-3" th:if="${!user.cook.likedCooks.isEmpty()}">
-		                                        <li class="list-group-item" th:each="likedCook : ${user.cook.likedCooks}" th:text="${likedCook.name} + ' ' + ${likedCook.surname}">Cook Name</li>
-		                                    </ul>
-										  <a class="nav-link  text-center navbar-elements" th:href="@{/cooks}">Scoprili</a>
-
+											
+											<div th:if="${user.cook.likedCooks.isEmpty()}" >
+												<p class="text-muted text-center mt-3">Non hai seguito nessuo dei nostri cuochi</p>
+												<a class="nav-link  text-center navbar-elements" th:href="@{/cooks}">Scoprili</a>
+											</div>
+											
+											<div class="list-group my-3" th:if="${!user.cook.likedCooks.isEmpty()}">
+		                                        <div class="container-md mx-auto ">
+													<div class="row mx-5 my-4 row-cols-1 row-cols-md-5 row-cols-lg-3 g-2 justify-content-center">
+														<div th:each="user : ${user.cook.likedCooks}" th:if="${!user.cook.likedCooks.isEmpty()}" class="col">
+															<div class="card h-100 card-hover">
+																<a th:href="@{/recipe/{id}(id=${recipe.id})}">
+																	<img th:src="${user.profilePic}" class="card-img-top2" alt="Recipe Image">
+																</a>
+																<div class="card-body d-flex flex-column justify-content-center align-items-center">
+																	<div class="d-flex justify-content-between align-items-center mb-3 w-100">
+																		<div class="d-flex justify-content-center align-items-center gap-2">
+																			
+																		</div>
+																		<h4 class="card-title text-center mb-0 mx-3 flex-grow-1" th:text="${user.name} + ' ' + ${user.surname}">Card title
+																		</h4>
+																		
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+		                                        </div>
+											</div>
+											
+											
 		                                </div>
 		                            </div>
 		                        </div>

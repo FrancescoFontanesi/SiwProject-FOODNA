@@ -27,7 +27,7 @@ public class SampleDataLoader implements CommandLineRunner {
         User admin = new User();
         admin.setName("Adimin");
         admin.setSurname("Test");
-        admin.setProfilePic("/images/admin.jpg");
+        admin.setProfilePic("/images/profilePics/admin.jpg");
 
 
         Credentials adminCredentials = new Credentials();

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
+import it.uniroma3.siw.model.Cook;
 import it.uniroma3.siw.model.Recipe;
 
 public interface RecipeRepository  extends CrudRepository<Recipe, Long>  {
@@ -17,5 +18,5 @@ public interface RecipeRepository  extends CrudRepository<Recipe, Long>  {
 
 	public List<Recipe> findByNameContainingIgnoreCaseAndCategory(String name, String category);
     
-	
+	public boolean existsByNameAndCook(String name, Cook cook);
 }

@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,6 +58,7 @@ public class CredentialsService  {
     	return this.passwordEncoder.encode(psw);
     }
     
+    
     @Transactional
     public void deleteCredentials(Long credentialsId) {
         Credentials credentials = credentialsRepository.findById(credentialsId).orElse(null);
@@ -84,14 +86,39 @@ public class CredentialsService  {
          u.setCook(new Cook());
          u.getCook().setUser(u);
          c.setUser(u);
-         this.saveCredentials(c);
-	
-    	
+         this.saveCredentials(c);	
+    }
+    
+    @Transactional
+    public void saveUserCredentialsForAdmin(Credentials c,User u,MultipartFile p) {
+    	 
+    	 if (!p.isEmpty()) {
+             try {
+                 byte[] bytes = p.getBytes();
+                 Path path = Paths.get(User.UPLOADED_FOLDER_PROFILEPICS + p.getOriginalFilename());
+                 System.out.println(path);
+                 Files.write(path, bytes);
+                 u.setProfilePic("/images/profilePics/"+ p.getOriginalFilename());
+              } catch (IOException e) {
+                 e.printStackTrace();
+             }
+         }
+    	 
+    	 c.setUser(u);
+         this.saveCredentials(c);	
     }
 
 	public boolean emailExists(String email) {
             return credentialsRepository.existsByEmail(email);
 	}
+
+	public boolean isAdminLogged(Authentication auth) {
+		Credentials c = this.getCredentials(auth.getName());
+		return c.getRole().equals("ADMIN");
+
+	}
+	
+	
 
 
 }  

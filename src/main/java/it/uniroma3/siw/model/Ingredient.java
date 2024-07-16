@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Ingredient {
@@ -16,6 +17,7 @@ public class Ingredient {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	
 	private String name;
 	private String quantity;
 
@@ -24,7 +26,8 @@ public class Ingredient {
 	private Recipe recipe;
 
 	public Ingredient() {
-		// Default constructor
+		this.name="";
+		this.quantity="";
 	}
 
 	// Getters and Setters
@@ -76,4 +79,11 @@ public class Ingredient {
 		Ingredient other = (Ingredient) obj;
 		return Objects.equals(id, other.id);
 	}
+
+	@Override
+	public String toString() {
+		return "Ingredient [id=" + id + ", name=" + name + ", quantity=" + quantity + "]";
+	}
+	
+	
 }

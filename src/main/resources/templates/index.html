@@ -55,15 +55,19 @@
 	                <p class="mainText">Esplora il nostro sito e entra a far parte della nostra community</p>
 	                <a th:href="@{/register}" class="nav-link navbar-elements mainText">Iscriviti</a>
 	            </div>
-					<div sec:authorize="isAuthenticated()" class="text-center">
+					<div sec:authorize="isAuthenticated()" th:if="${#authentication.authorities[0].authority != 'ADMIN'}" class="text-center">
 						<h1 style="font-weight: 700;">Benvenuto!</h1>
 					    <h1 style="font-weight: 500;">Publica le tue ricette e salva le tue preferite!</h1>
 	            </div>
-	        </div>
+	            
+	             <div th:if="${#authentication.authorities[0].authority == 'ADMIN'}" class="text-center">
+					 <h1 style="font-weight: 700;">Benvenuto</h1>
+	             </div>
+	            </div>
 	        <div class="px-0 col-lg-3">
 	            <img th:src="@{images/back1.png}" class="img-fluid mx-0 d-block " style="width: 100%; height: auto;">
 	        </div>
-	    </div>
+	    
 	</div>
 	
 	<div class="py-4 slideInLeftScroll1">

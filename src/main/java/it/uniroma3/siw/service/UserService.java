@@ -6,15 +6,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import it.uniroma3.siw.model.Cook;
 import it.uniroma3.siw.model.Credentials;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.CredentialsRepository;
@@ -74,18 +75,22 @@ public class UserService {
 		
 	}
 	
+	public void saveUser(User user) {
+		userRepository.save(user);
+	}
+	
+	
     @Transactional
-	public void updateUser(Long id, String email, String password, String name, String surname, String bio, String birthDate, MultipartFile file, Model model,RedirectAttributes redirectAttributes ) {
+	public void updateUser(Long id, String email, String password, String name, String surname, String bio, String birthDate, MultipartFile file) {
 		
+    	
+    	
     	
     	
 		Credentials c = credentialsRepository.findById(id).get();
 		User user = c.getUser();				
 		
-		
-		if(!credentialsService.emailExists(email)) {
 	
-        
         if (!email.isBlank()) {
             c.setEmail(email);
         }
@@ -115,10 +120,8 @@ public class UserService {
         System.out.println(c);
         credentialsRepository.save(c);
 		}
-		else 
-	      redirectAttributes.addAttribute("error", true);
 		
-        }
+
 
 
 	private void storeFile(MultipartFile p,User user) {
@@ -143,7 +146,30 @@ public class UserService {
 	}
 
 
+	
+	public User getLoggedUser(Authentication auth) {
+		Credentials c = credentialsService.getCredentials(auth.getName());
+		User u = c.getUser();
+		return u;
+	}
+	
+	public void addLoggedUser(Authentication auth,Model m ) {
+		if(auth!=null) {
+		Credentials c = credentialsService.getCredentials(auth.getName());
+		m.addAttribute("loggedUser", c.getUser());
+		}
+		else 
+			m.addAttribute("loggedUser",null);
+	}
 
+	
+	public boolean isUserFollowedByLoggedUser(Long id, Authentication auth) {
+		
+		Cook cook = credentialsService.getCredentials(auth.getName()).getUser().getCook();
+		return cook.getLikedCooks().contains(userRepository.findById(id).get());
+		
+
+	}
 
     
   
