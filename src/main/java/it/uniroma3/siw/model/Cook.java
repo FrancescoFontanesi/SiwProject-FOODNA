@@ -9,7 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -26,13 +26,13 @@ public class Cook {
 	@OneToOne
     private User user;
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cook", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "cook", cascade = {CascadeType.ALL})
     private List<Recipe> personalRecipes;
 
-    @OneToMany(fetch = FetchType.LAZY) 
+    @ManyToMany(fetch = FetchType.LAZY) 
     private List<Recipe> favoritesRecipes;
 
-    @OneToMany(fetch = FetchType.LAZY) 
+    @ManyToMany(fetch = FetchType.LAZY) 
     private List<User> likedCooks;
 	
 
